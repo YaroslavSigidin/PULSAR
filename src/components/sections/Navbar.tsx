@@ -45,7 +45,7 @@ export function Navbar() {
   const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 px-4 py-4 md:px-6 md:py-5">
+    <header className="apple-liquid-header fixed inset-x-0 top-0 z-40 px-4 py-4 md:px-6 md:py-5">
       <div className="mx-auto max-w-6xl">
         <nav className="apple-liquid-bar flex w-full items-center justify-between gap-3 rounded-[1.85rem] px-3 py-3 md:rounded-[2rem] md:px-4">
           <div className="flex items-center gap-4">
