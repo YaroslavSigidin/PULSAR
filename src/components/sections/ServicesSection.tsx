@@ -263,11 +263,6 @@ function ServiceAccordionItem({
             <h3 className="min-w-0 font-sans text-[1.05rem] font-medium leading-tight tracking-tight text-white md:text-[1.3rem]">
               {service.title}
             </h3>
-            {isActive ? (
-              <span className="hidden rounded-full border border-white/12 bg-white/[0.05] px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/46 md:inline-flex">
-                Раскрыто
-              </span>
-            ) : null}
           </div>
         </div>
 
