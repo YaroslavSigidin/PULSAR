@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="700" viewBox="0 0 2200 700">
+  <rect width="2200" height="700" fill="transparent"/>
+  <text
+    x="1100"
+    y="420"
+    text-anchor="middle"
+    font-family="Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+    font-size="492"
+    font-style="normal"
+    font-weight="900"
+    letter-spacing="-4"
+    stroke="#ffffff"
+    stroke-width="2"
+    paint-order="stroke fill"
+    fill="#ffffff"
+  >
+    ПУЛЬСАР
+  </text>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="500" viewBox="0 0 2000 500">
+  <rect width="2000" height="500" fill="transparent"/>
+  <text
+    x="1000"
+    y="330"
+    text-anchor="middle"
+    font-family="Inter, Arial, sans-serif"
+    font-size="250"
+    font-style="italic"
+    font-weight="900"
+    letter-spacing="-8"
+    fill="#ffffff"
+  >
+    BROTHERS
+  </text>
+</svg>
