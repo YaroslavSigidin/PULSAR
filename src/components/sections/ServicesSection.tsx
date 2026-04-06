@@ -293,70 +293,21 @@ function ServiceAccordionItem({
             {...panelMotion}
             className="overflow-hidden"
           >
-            <div className="relative grid gap-5 border-t border-white/10 px-5 pb-5 pt-5 md:grid-cols-[minmax(0,1.12fr)_minmax(280px,0.88fr)] md:px-7 md:pb-7 md:pt-6">
+            <div className="relative border-t border-white/10 px-5 pb-5 pt-5 md:px-7 md:pb-7 md:pt-6">
               <div>
                 <p className="max-w-3xl text-sm leading-7 text-white/72 md:text-[15px]">
                   {service.description}
                 </p>
 
-                <div className="mt-5 grid gap-2 sm:grid-cols-3">
-                  {service.outcomes.map((outcome) => (
-                    <div
-                      key={outcome}
-                      className="rounded-[1.2rem] border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
-                    >
-                      {outcome}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-5 flex">
                   <button
                     type="button"
                     onClick={onRequest}
                     className="hero-chrome-button inline-flex items-center justify-center gap-2 rounded-[14px] px-6 py-3 text-sm font-semibold text-black"
                   >
-                    Запросить этот блок
+                    Запросить
                     <ArrowUpRight className="h-4 w-4" />
                   </button>
-                  <button
-                    type="button"
-                    onClick={onToggle}
-                    className="inline-flex items-center justify-center rounded-[14px] border border-white/12 bg-white/[0.03] px-6 py-3 text-sm text-white/72 transition-colors hover:bg-white/[0.05] hover:text-white"
-                  >
-                    Свернуть
-                  </button>
-                </div>
-              </div>
-
-              <div className="relative overflow-hidden rounded-[1.65rem] border border-white/10 bg-[radial-gradient(circle_at_82%_16%,rgba(255,255,255,0.08),transparent_18%),radial-gradient(circle_at_16%_100%,rgba(255,255,255,0.05),transparent_25%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_18px_44px_rgba(0,0,0,0.24)]">
-                <div className="pointer-events-none absolute -right-16 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full border border-white/10 bg-[radial-gradient(circle,rgba(255,255,255,0.18),rgba(255,255,255,0)_64%)] blur-xl" />
-                <p className="text-[11px] uppercase tracking-[0.22em] text-white/38">Траектория сервиса</p>
-
-                <div className="mt-5 space-y-3">
-                  {[
-                    { label: 'Вход', value: service.flow.input },
-                    { label: 'Усиливаем', value: service.flow.craft },
-                    { label: 'На выходе', value: service.flow.output },
-                  ].map((item, flowIndex) => (
-                    <div key={item.label}>
-                      <div className="flex gap-3">
-                        <div className="flex w-8 flex-col items-center">
-                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/12 bg-white/[0.05] text-[11px] text-white/58">
-                            {String(flowIndex + 1).padStart(2, '0')}
-                          </span>
-                          {flowIndex < 2 ? (
-                            <span className="mt-2 h-8 w-px bg-gradient-to-b from-white/26 to-transparent" />
-                          ) : null}
-                        </div>
-
-                        <div className="pt-1">
-                          <p className="text-xs uppercase tracking-[0.18em] text-white/34">{item.label}</p>
-                          <p className="mt-2 text-sm leading-6 text-white/74">{item.value}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
