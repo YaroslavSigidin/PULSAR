@@ -70,11 +70,11 @@ export function HeroSection() {
         className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col items-center px-4 pb-12 pt-[6.9rem] text-center md:min-h-screen md:pb-16 md:pt-[15rem]"
       >
         <motion.div variants={revealItem} className="md:mt-[100px]">
-          <div className="relative mx-auto h-[152px] w-[min(108vw,430px)] sm:h-[180px] sm:w-[min(108vw,470px)] md:h-[340px] md:w-[940px]">
-            <div className="relative z-10">
+          <div className="relative mx-auto h-[160px] w-[min(112vw,460px)] overflow-visible sm:h-[192px] sm:w-[min(112vw,520px)] md:h-[376px] md:w-[1040px] xl:h-[396px] xl:w-[1100px]">
+            <div className="relative z-10 overflow-visible">
               <LiquidMetal
-                width={940}
-                height={340}
+                width={1100}
+                height={396}
                 image={withBaseUrl('kk-mask.svg')}
                 colorBack="rgba(0,0,0,0)"
                 colorTint="#ffffff"
