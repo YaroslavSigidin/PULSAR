@@ -322,13 +322,9 @@ export function ServicesSection() {
       <div className="mx-auto max-w-6xl">
         <Reveal className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Все услуги</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-white/65 md:text-base">
-            Вместо мертвой сетки здесь теперь рабочая траектория релиза: раскрывай нужный блок и сразу
-            смотри, что входит, как это усиливается и что ты получаешь на выходе.
-          </p>
         </Reveal>
 
-        <div className="mt-10 space-y-3">
+        <div className="mt-8 space-y-3">
           {services.map((service, index) => (
             <Reveal key={service.title} delay={index * 35}>
               <ServiceAccordionItem
