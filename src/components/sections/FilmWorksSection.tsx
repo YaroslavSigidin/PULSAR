@@ -1,6 +1,7 @@
 import { Clapperboard, Film } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
+import { withBaseUrl } from '@/lib/withBaseUrl'
 
 type FilmWork = {
   title: string
@@ -14,25 +15,25 @@ const films: FilmWork[] = [
     title: 'Нейро Батя',
     subtitle: 'Полнометражный фильм',
     year: '2025',
-    poster: '/film-posters/za-slova-otvechayu.jpg',
+    poster: withBaseUrl('film-posters/za-slova-otvechayu.jpg'),
   },
   {
     title: 'Юра дворник',
     subtitle: 'Полнометражный фильм',
     year: '2023',
-    poster: '/film-posters/neyro-batya.jpg',
+    poster: withBaseUrl('film-posters/neyro-batya.jpg'),
   },
   {
     title: 'На деревню дедушке',
     subtitle: 'Полнометражный фильм',
     year: '2025',
-    poster: '/film-posters/yura-dvornik.jpg',
+    poster: withBaseUrl('film-posters/yura-dvornik.jpg'),
   },
   {
     title: 'За слова отвечаю',
     subtitle: 'Полнометражный фильм',
     year: '2024',
-    poster: '/film-posters/na-derevnyu-dedushke.jpg',
+    poster: withBaseUrl('film-posters/na-derevnyu-dedushke.jpg'),
   },
 ]
 

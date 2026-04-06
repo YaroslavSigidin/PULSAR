@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
+import { withBaseUrl } from '@/lib/withBaseUrl'
 
 type CaseTrack = {
   artists: string
@@ -14,79 +15,79 @@ const tracks: CaseTrack[] = [
     artists: 'АКУЛИЧ, Молодой Платон',
     title: 'ПОДАРОК',
     url: 'https://music.yandex.ru/album/29475631/track/122065507?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/podarok.jpg',
+    cover: withBaseUrl('case-covers/podarok.jpg'),
   },
   {
     artists: 'Молодой Платон, ЛСП',
     title: 'Секретарша',
     url: 'https://music.yandex.ru/album/32901624?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/sekretarsha.jpg',
+    cover: withBaseUrl('case-covers/sekretarsha.jpg'),
   },
   {
     artists: 'Платина, Voskresenskii',
     title: 'Бассок',
     url: 'https://music.yandex.ru/album/40890645/track/148716093?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/bassok.jpg',
+    cover: withBaseUrl('case-covers/bassok.jpg'),
   },
   {
     artists: 'Exile Music, STOPBAN & DILBLIN',
     title: 'MiMiMaMaMu',
     url: 'https://music.yandex.ru/album/25969197/track/114088774?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/mimimamamu.jpg',
+    cover: withBaseUrl('case-covers/mimimamamu.jpg'),
   },
   {
     artists: 'Aarne, Big Baby Tape, Toxis, Chief Keef',
     title: '4 ur girl',
     url: 'https://music.yandex.ru/album/27928024/track/118618027?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/4-ur-girl.jpg',
+    cover: withBaseUrl('case-covers/4-ur-girl.jpg'),
   },
   {
     artists: 'Lil Krystall',
     title: 'Первым делом',
     url: 'https://music.yandex.ru/album/33593119/track/131897969?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/pervym-delom.jpg',
+    cover: withBaseUrl('case-covers/pervym-delom.jpg'),
   },
   {
     artists: 'Scally Milano, uglystephan',
     title: 'Дай Мне Шанс',
     url: 'https://music.yandex.ru/album/25640764/track/113296213?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/dai-mne-shans.jpg',
+    cover: withBaseUrl('case-covers/dai-mne-shans.jpg'),
   },
   {
     artists: 'ALBLAK 52, Скриптонит, FRIENDLY THUG 52 NGG',
     title: 'Спокойной ночи',
     url: 'https://music.yandex.ru/album/31574614/track/126843935?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/spokoynoy-nochi.jpg',
+    cover: withBaseUrl('case-covers/spokoynoy-nochi.jpg'),
   },
   {
     artists: 'DILARA',
     title: 'Без пары',
     url: 'https://music.yandex.ru/album/36959831/track/139939477?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/bez-pary.jpg',
+    cover: withBaseUrl('case-covers/bez-pary.jpg'),
   },
   {
     artists: 'By Индия',
     title: 'ей так страшно',
     url: 'https://music.yandex.ru/album/34188829/track/133371520?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/ey-tak-strashno.jpg',
+    cover: withBaseUrl('case-covers/ey-tak-strashno.jpg'),
   },
   {
     artists: 'Big Baby Tape, kizaru',
     title: 'Haunted House',
     url: 'https://music.yandex.ru/album/27928024/track/118618025?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/haunted-house.jpg',
+    cover: withBaseUrl('case-covers/haunted-house.jpg'),
   },
   {
     artists: 'MACAN, ALBLAK52',
     title: 'FLAGMAN',
     url: 'https://music.yandex.ru/album/37458189/track/141103758?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/flagman.jpg',
+    cover: withBaseUrl('case-covers/flagman.jpg'),
   },
   {
     artists: 'gotlibgotlibgotlib',
     title: 'aromat',
     url: 'https://music.yandex.ru/album/37745619/track/141752062?utm_source=web&utm_medium=copy_link',
-    cover: '/case-covers/aromat.jpg',
+    cover: withBaseUrl('case-covers/aromat.jpg'),
   },
 ] as const
 

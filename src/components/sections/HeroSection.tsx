@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 import { ShaderLines } from '@/components/ui/shader-lines'
+import { withBaseUrl } from '@/lib/withBaseUrl'
 
 import { Navbar } from './Navbar'
 
@@ -74,7 +75,7 @@ export function HeroSection() {
               <LiquidMetal
                 width={940}
                 height={340}
-                image="/kk-mask.svg"
+                image={withBaseUrl('kk-mask.svg')}
                 colorBack="rgba(0,0,0,0)"
                 colorTint="#ffffff"
                 shape="diamond"
