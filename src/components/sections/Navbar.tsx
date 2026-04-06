@@ -81,7 +81,7 @@ export function Navbar() {
               className="apple-liquid-segment apple-liquid-cta-segment"
             >
               <MessageCircle className="h-3.5 w-3.5" />
-              Telegram
+              Связаться с менеджером
             </a>
             <a
               href="#lead-form"
@@ -134,7 +134,7 @@ export function Navbar() {
                   className="apple-liquid-mobile-link inline-flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  Telegram
+                  Связаться с менеджером
                 </a>
 
                 <a
