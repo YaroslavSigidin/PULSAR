@@ -569,7 +569,8 @@
     font-style: italic;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.045em;
+    letter-spacing: 0.018em;
+    transform: translateY(-100px);
   }
 
   .hero-secondary-button {

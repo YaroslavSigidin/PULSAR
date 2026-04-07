@@ -305,7 +305,7 @@ export function ServicesSection() {
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
 
   return (
-    <section id="services" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
+    <section id="services" className="scroll-mt-28 bg-black px-4 pb-28 pt-[7.5rem] text-white">
       <div className="mx-auto max-w-6xl">
         <Reveal className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">

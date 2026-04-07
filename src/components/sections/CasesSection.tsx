@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { ArrowUpRight, Heart, Play, Send } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowUpRight, Heart, Pause, Play, Send } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { withBaseUrl } from '@/lib/withBaseUrl'
@@ -9,7 +9,10 @@ type CaseTrack = {
   title: string
   url: string
   cover: string
+  audioUrl?: string
 }
+
+type PlaybackState = 'idle' | 'loading' | 'playing' | 'error'
 
 const tracks: CaseTrack[] = [
   {
@@ -83,6 +86,7 @@ const tracks: CaseTrack[] = [
     title: 'FLAGMAN',
     url: 'https://music.yandex.ru/album/37458189/track/141103758?utm_source=web&utm_medium=copy_link',
     cover: withBaseUrl('case-covers/flagman.jpg'),
+    audioUrl: withBaseUrl('case-audio/flagman.mp3'),
   },
   {
     artists: 'gotlibgotlibgotlib',
@@ -92,34 +96,20 @@ const tracks: CaseTrack[] = [
   },
 ] as const
 
-function getYandexPlayerUrl(url: string) {
-  const { pathname } = new URL(url)
-  const [, albumId, trackId] = pathname.match(/\/album\/(\d+)(?:\/track\/(\d+))?/) ?? []
-
-  if (albumId && trackId) {
-    return `https://music.yandex.ru/iframe/#track/${trackId}/${albumId}`
-  }
-
-  if (albumId) {
-    return `https://music.yandex.ru/iframe/#album/${albumId}`
-  }
-
-  return url
-}
-
 function TrackPlayer({
   track,
-  trackKey,
-  activeTrackKey,
-  onActivate,
+  playbackState,
+  onTogglePlayback,
 }: {
   track: CaseTrack
-  trackKey: string
-  activeTrackKey: string
-  onActivate: (trackKey: string) => void
+  playbackState: PlaybackState
+  onTogglePlayback: () => void
 }) {
   const [isLiked, setIsLiked] = useState(false)
-  const isActive = activeTrackKey === trackKey
+  const isLoading = playbackState === 'loading'
+  const isPlaying = playbackState === 'playing'
+  const hasPlaybackError = playbackState === 'error'
+  const playbackLabel = isLoading ? 'Loading' : isPlaying ? 'Pause' : 'Play'
 
   const handleShare = () => {
     const shareData = {
@@ -142,36 +132,26 @@ function TrackPlayer({
     window.open(track.url, '_blank', 'noopener,noreferrer')
   }
 
-  if (isActive) {
-    return (
-      <div
-        aria-label={`Плеер ${track.title}`}
-        className="mt-5 inline-flex h-[52px] w-[154px] overflow-hidden rounded-full border border-white/12 bg-black/42 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
-      >
-        <iframe
-          key={trackKey}
-          title={`Плеер ${track.title}`}
-          src={getYandexPlayerUrl(track.url)}
-          loading="lazy"
-          className="block h-[52px] w-[154px] grayscale contrast-125 saturate-0"
-          allow="autoplay; clipboard-write; encrypted-media"
-        />
-      </div>
-    )
-  }
-
   return (
     <div
-      aria-label={`Плеер ${track.title}`}
+      aria-label={`Действия для ${track.title}`}
       className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
     >
       <button
         type="button"
-        aria-label={`Включить ${track.title} в Яндекс Музыке`}
-        onClick={() => onActivate(trackKey)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white text-black transition duration-300 hover:scale-105 hover:bg-white/88"
+        aria-label={isPlaying ? `Поставить ${track.title} на паузу` : `Включить ${track.title}`}
+        aria-pressed={isPlaying}
+        disabled={isLoading}
+        onClick={onTogglePlayback}
+        title={hasPlaybackError ? 'Не найден прямой аудиофайл для воспроизведения' : undefined}
+        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/12 bg-white px-5 text-black transition duration-300 hover:scale-105 hover:bg-white/88"
       >
-        <Play className="h-4 w-4 fill-current" aria-hidden="true" />
+        {isPlaying ? (
+          <Pause className="h-4 w-4 fill-current" aria-hidden="true" />
+        ) : (
+          <Play className="h-4 w-4 fill-current" aria-hidden="true" />
+        )}
+        <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">{playbackLabel}</span>
       </button>
       <button
         type="button"
@@ -198,15 +178,13 @@ function TrackPlayer({
 function CaseCard({
   index,
   track,
-  trackKey,
-  activeTrackKey,
-  onActivateTrack,
+  playbackState,
+  onTogglePlayback,
 }: {
   index: number
   track: CaseTrack
-  trackKey: string
-  activeTrackKey: string
-  onActivateTrack: (trackKey: string) => void
+  playbackState: PlaybackState
+  onTogglePlayback: () => void
 }) {
   return (
     <li>
@@ -242,12 +220,7 @@ function CaseCard({
           <h3 className="artist-name-chrome mt-4 max-w-[20rem] text-[2rem] font-semibold uppercase tracking-[-0.04em] text-white md:text-[2.5rem] md:leading-[0.95]">
             {track.title}
           </h3>
-          <TrackPlayer
-            track={track}
-            trackKey={trackKey}
-            activeTrackKey={activeTrackKey}
-            onActivate={onActivateTrack}
-          />
+          <TrackPlayer track={track} playbackState={playbackState} onTogglePlayback={onTogglePlayback} />
         </div>
       </article>
     </li>
@@ -255,10 +228,80 @@ function CaseCard({
 }
 
 export function CasesSection() {
-  const [activeTrackKey, setActiveTrackKey] = useState('')
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const activeTrackKeyRef = useRef('')
+  const [loadingTrackKey, setLoadingTrackKey] = useState('')
+  const [playingTrackKey, setPlayingTrackKey] = useState('')
+  const [errorTrackKey, setErrorTrackKey] = useState('')
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return undefined
+
+    const resetPlaybackState = () => {
+      setLoadingTrackKey('')
+      setPlayingTrackKey('')
+    }
+
+    const markPlaybackError = () => {
+      setLoadingTrackKey('')
+      setPlayingTrackKey('')
+      setErrorTrackKey(activeTrackKeyRef.current)
+    }
+
+    audio.addEventListener('ended', resetPlaybackState)
+    audio.addEventListener('error', markPlaybackError)
+
+    return () => {
+      audio.removeEventListener('ended', resetPlaybackState)
+      audio.removeEventListener('error', markPlaybackError)
+    }
+  }, [])
+
+  const togglePlayback = async (trackKey: string, track: CaseTrack) => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (playingTrackKey === trackKey) {
+      audio.pause()
+      setPlayingTrackKey('')
+      setLoadingTrackKey('')
+      return
+    }
+
+    if (!track.audioUrl) {
+      audio.pause()
+      setPlayingTrackKey('')
+      setLoadingTrackKey('')
+      setErrorTrackKey(trackKey)
+      window.open(track.url, '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    activeTrackKeyRef.current = trackKey
+    setErrorTrackKey('')
+    setLoadingTrackKey(trackKey)
+
+    const nextAudioUrl = new URL(track.audioUrl, window.location.href).href
+    if (audio.src !== nextAudioUrl) {
+      audio.src = track.audioUrl
+      audio.load()
+    }
+
+    try {
+      await audio.play()
+      setPlayingTrackKey(trackKey)
+    } catch {
+      setErrorTrackKey(trackKey)
+      setPlayingTrackKey('')
+    } finally {
+      setLoadingTrackKey('')
+    }
+  }
 
   return (
     <section id="cases" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
+      <audio ref={audioRef} preload="none" className="hidden" />
       <div className="mx-auto max-w-6xl">
         <Reveal className="mx-auto max-w-4xl text-center">
           <p className="text-xs tracking-[0.16em] text-white/45">SELECTED RELEASES</p>
@@ -268,15 +311,22 @@ export function CasesSection() {
         <ul className="mt-14 grid gap-4 md:grid-cols-2">
           {tracks.map((track, index) => {
             const trackKey = `${track.artists}-${track.title}`
+            const playbackState =
+              loadingTrackKey === trackKey
+                ? 'loading'
+                : playingTrackKey === trackKey
+                  ? 'playing'
+                  : errorTrackKey === trackKey
+                    ? 'error'
+                    : 'idle'
 
             return (
               <Reveal key={trackKey} delay={index * 40}>
                 <CaseCard
                   index={index}
                   track={track}
-                  trackKey={trackKey}
-                  activeTrackKey={activeTrackKey}
-                  onActivateTrack={setActiveTrackKey}
+                  playbackState={playbackState}
+                  onTogglePlayback={() => void togglePlayback(trackKey, track)}
                 />
               </Reveal>
             )
