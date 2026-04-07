@@ -51,7 +51,7 @@ export function LeadRequestModal({ isOpen, serviceTitle, onClose }: LeadRequestM
   if (!isOpen) return null
 
   const inputClassName =
-    'h-12 rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm text-white outline-none placeholder:text-white/28 transition-colors focus:border-white/28 focus:bg-white/[0.06]'
+    'h-12 rounded-xl border border-white/12 bg-white/[0.04] px-4 text-left text-sm text-white outline-none placeholder:text-white/28 transition-colors focus:border-white/28 focus:bg-white/[0.06]'
 
   const handleChange =
     (field: keyof LeadFormState) =>
@@ -110,7 +110,7 @@ export function LeadRequestModal({ isOpen, serviceTitle, onClose }: LeadRequestM
           <X className="h-4 w-4" />
         </button>
 
-        <div className="relative">
+        <div className="relative flex flex-col items-center text-center">
           <p className="text-xs tracking-[0.16em] text-white/38">ЗАЯВКА</p>
           <h3 id="lead-request-modal-title" className="mt-4 max-w-xl text-3xl font-semibold tracking-tight md:text-[2rem]">
             Записаться
@@ -123,7 +123,7 @@ export function LeadRequestModal({ isOpen, serviceTitle, onClose }: LeadRequestM
             {serviceTitle}
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-7 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <form onSubmit={handleSubmit} className="mt-7 grid w-full grid-cols-1 gap-3 md:grid-cols-2">
             <input
               type="text"
               name="lastName"
@@ -178,13 +178,13 @@ export function LeadRequestModal({ isOpen, serviceTitle, onClose }: LeadRequestM
               placeholder="Комментарий: удобное время, задачи, референсы"
               value={form.comment}
               onChange={handleChange('comment')}
-              className="min-h-[124px] rounded-xl border border-white/12 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none placeholder:text-white/28 transition-colors focus:border-white/28 focus:bg-white/[0.06] md:col-span-2"
+              className="min-h-[124px] rounded-xl border border-white/12 bg-white/[0.04] px-4 py-3 text-left text-sm text-white outline-none placeholder:text-white/28 transition-colors focus:border-white/28 focus:bg-white/[0.06] md:col-span-2"
             />
 
-            <div className="mt-2 flex flex-col gap-3 md:col-span-2 md:flex-row">
+            <div className="mt-2 flex flex-col gap-3 md:col-span-2">
               <button
                 type="submit"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/14 bg-white px-6 text-sm font-semibold text-black shadow-[0_14px_34px_rgba(255,255,255,0.08),0_14px_32px_rgba(0,0,0,0.28)] transition hover:bg-white/92 md:w-auto"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/14 bg-white px-6 text-sm font-semibold text-black shadow-[0_14px_34px_rgba(255,255,255,0.08),0_14px_32px_rgba(0,0,0,0.28)] transition hover:bg-white/92"
               >
                 Записаться
                 <ArrowUpRight className="h-4 w-4" />
