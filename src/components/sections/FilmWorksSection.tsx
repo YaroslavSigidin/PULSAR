@@ -1,6 +1,7 @@
-import { Clapperboard, Film } from 'lucide-react'
+import { CheckCircle2, Clapperboard, Disc3, Film, Music2 } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
+import * as PricingCard from '@/components/ui/pricing-card'
 import { withBaseUrl } from '@/lib/withBaseUrl'
 
 type FilmWork = {
@@ -9,6 +10,42 @@ type FilmWork = {
   year: string
   poster: string
 }
+
+type FilmService = {
+  title: string
+  subtitle: string
+  description: string
+  badge: string
+  accent: string
+  icon: typeof Music2
+  features: string[]
+}
+
+const filmServiceTheme =
+  '[--tariff-top:rgba(24,24,28,0.99)] [--tariff-mid:rgba(15,15,18,0.992)] [--tariff-base:rgba(6,6,8,1)] [--tariff-panel-top:rgba(44,44,50,0.97)] [--tariff-panel-bottom:rgba(16,16,20,0.99)] [--tariff-glow:rgba(255,255,255,0.08)] [--tariff-glow-soft:rgba(255,255,255,0.05)] [--tariff-edge:rgba(255,255,255,0.12)]'
+
+const filmServices: FilmService[] = [
+  {
+    title: 'Подбор и лицензирование существующих треков',
+    subtitle: 'Music supervision',
+    description:
+      'Находим музыку под сцену, настроение и бюджет проекта, проверяем права и помогаем пройти путь от шорт-листа до легального использования трека.',
+    badge: 'License',
+    accent: '01',
+    icon: Disc3,
+    features: ['Музыкальный ресерч под сцену', 'Проверка прав и условий', 'Подготовка трека к использованию'],
+  },
+  {
+    title: 'Создание музыки для полного метра, саундтреки и джинглы',
+    subtitle: 'Original score',
+    description:
+      'Создаем оригинальную музыку под монтаж, драматургию и бренд: от темы фильма и саундтрека до короткого узнаваемого джингла.',
+    badge: 'Score',
+    accent: '02',
+    icon: Music2,
+    features: ['Оригинальная музыка под проект', 'Саундтреки и темы', 'Джинглы и бренд-звучание'],
+  },
+]
 
 const films: FilmWork[] = [
   {
@@ -83,6 +120,57 @@ function FilmCard({ index, film }: { index: number; film: FilmWork }) {
   )
 }
 
+function FilmServiceCard({ service }: { service: FilmService }) {
+  const Icon = service.icon
+
+  return (
+    <PricingCard.Card className="flex h-full w-full border-transparent bg-transparent p-0.5 shadow-none">
+      <div className={`premium-tariff-card flex h-full w-full flex-1 flex-col rounded-[1.75rem] px-1.5 pb-[10px] pt-1.5 ${filmServiceTheme}`}>
+        <PricingCard.Header
+          glassEffect={false}
+          className="premium-tariff-header mb-0 rounded-[1.5rem] p-5"
+        >
+          <PricingCard.Plan className="mb-10">
+            <PricingCard.PlanName className="premium-tariff-meta text-white/66">
+              <Icon aria-hidden="true" />
+              <span>{service.accent}</span>
+            </PricingCard.PlanName>
+            <PricingCard.Badge className="premium-tariff-badge border-white/14 text-white/66">
+              {service.badge}
+            </PricingCard.Badge>
+          </PricingCard.Plan>
+
+          <PricingCard.Price className="mb-4 flex-col items-start gap-2">
+            <PricingCard.MainPrice className="premium-tariff-title chrome-text-animated text-3xl md:text-4xl">
+              {service.title}
+            </PricingCard.MainPrice>
+            <PricingCard.Period className="pb-0 text-sm text-white/52">
+              {service.subtitle}
+            </PricingCard.Period>
+          </PricingCard.Price>
+        </PricingCard.Header>
+
+        <PricingCard.Body className="flex flex-1 flex-col px-5 pb-5 pt-4 space-y-0">
+          <PricingCard.Description className="premium-tariff-copy max-w-xl text-sm leading-6 text-white/62">
+            {service.description}
+          </PricingCard.Description>
+
+          <PricingCard.List className="mt-6">
+            {service.features.map((feature) => (
+              <PricingCard.ListItem key={feature} className="premium-tariff-feature text-white/64">
+                <span className="mt-0.5">
+                  <CheckCircle2 className="h-4 w-4 text-white/90" aria-hidden="true" />
+                </span>
+                <span>{feature}</span>
+              </PricingCard.ListItem>
+            ))}
+          </PricingCard.List>
+        </PricingCard.Body>
+      </div>
+    </PricingCard.Card>
+  )
+}
+
 export function FilmWorksSection() {
   return (
     <section id="films" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
@@ -92,13 +180,17 @@ export function FilmWorksSection() {
           <h2 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
             Музыкальный продакшн кино и рекламы
           </h2>
-          <div className="mx-auto mt-5 max-w-3xl space-y-3 text-base leading-7 text-white/64 md:text-lg">
-            <p>Подбор и лицензирование существующих треков.</p>
-            <p>Создание музыки для полного метра, саундтреки и джинглы.</p>
-          </div>
         </Reveal>
 
-        <Reveal className="mt-12">
+        <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          {filmServices.map((service, index) => (
+            <Reveal key={service.title} delay={index * 70} className="flex h-full">
+              <FilmServiceCard service={service} />
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="mt-14">
           <h3 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">Наши работы:</h3>
         </Reveal>
 
