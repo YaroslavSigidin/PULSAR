@@ -93,7 +93,10 @@ export function HeroSection() {
             </div>
           </div>
           <h1 className="sr-only">ПУЛЬСАР</h1>
-          <p className="hero-production-kicker -mt-2 text-[1rem] leading-tight text-white/86 md:-mt-8 md:text-[1.55rem]">
+          <p
+            className="hero-production-kicker -mt-2 text-[1rem] leading-tight text-white/86 md:-mt-8 md:text-[1.55rem]"
+            data-text="СТУДИЯ МУЗЫКАЛЬНОГО ПРОДАКШЕНА"
+          >
             СТУДИЯ МУЗЫКАЛЬНОГО ПРОДАКШЕНА
           </p>
         </motion.div>
