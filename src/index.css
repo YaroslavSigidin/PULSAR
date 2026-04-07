@@ -205,8 +205,6 @@
       rgba(8, 8, 10, 0.24) 72%,
       rgba(8, 8, 10, 0) 100%
     );
-    backdrop-filter: blur(20px) saturate(1.12);
-    -webkit-backdrop-filter: blur(20px) saturate(1.12);
   }
 
   .apple-liquid-header::before {

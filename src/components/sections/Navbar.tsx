@@ -38,7 +38,7 @@ export function Navbar() {
   const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
   return (
-    <header className="apple-liquid-header fixed inset-x-0 top-0 px-3 py-3 sm:px-5 xl:px-6 xl:py-5">
+    <header className="apple-liquid-header fixed inset-x-0 top-0 px-3 py-3 backdrop-blur-xl backdrop-saturate-[1.12] sm:px-5 xl:px-6 xl:py-5">
       <AnimatePresence>
         {!isDesktopNav && isMobileMenuOpen ? (
           <motion.button
