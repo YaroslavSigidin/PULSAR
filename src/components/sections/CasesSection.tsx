@@ -143,6 +143,20 @@ function CaseCard({
           {String(index + 1).padStart(2, '0')}
         </span>
 
+        <button
+          type="button"
+          onClick={onPlayerToggle}
+          aria-label={isPlaying ? `Остановить ${track.title}` : `Включить ${track.title}`}
+          aria-pressed={isPlaying}
+          className="absolute bottom-6 right-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/82 backdrop-blur-md transition duration-300 hover:border-white/36 hover:bg-white hover:text-black md:bottom-7 md:right-7"
+        >
+          <span
+            aria-hidden="true"
+            className={isPlaying ? 'h-3.5 w-3.5 rounded-[2px] bg-current' : 'ml-0.5 h-0 w-0 border-y-[7px] border-l-[11px] border-y-transparent border-l-current'}
+          />
+          <span>{isPlaying ? 'Stop' : 'Play'}</span>
+        </button>
+
         <div className="relative z-10 mt-auto max-w-[24rem]">
           <p className="max-w-[24rem] text-sm leading-6 text-white/55 md:text-[15px]">
             {track.artists}
@@ -150,18 +164,6 @@ function CaseCard({
           <h3 className="artist-name-chrome mt-4 max-w-[20rem] text-[2rem] font-semibold uppercase tracking-[-0.04em] text-white md:text-[2.5rem] md:leading-[0.95]">
             {track.title}
           </h3>
-          <button
-            type="button"
-            onClick={onPlayerToggle}
-            aria-label={isPlaying ? `Остановить ${track.title}` : `Включить ${track.title}`}
-            aria-pressed={isPlaying}
-            className="mt-6 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/16 bg-white/[0.06] text-white transition duration-300 hover:border-white/36 hover:bg-white hover:text-black"
-          >
-            <span
-              aria-hidden="true"
-              className={isPlaying ? 'h-4 w-4 rounded-[2px] bg-current' : 'ml-0.5 h-0 w-0 border-y-[8px] border-l-[13px] border-y-transparent border-l-current'}
-            />
-          </button>
         </div>
       </article>
     </li>
