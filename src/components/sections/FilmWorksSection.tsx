@@ -1,6 +1,8 @@
-import { CheckCircle2, Clapperboard, Disc3, Film, Music2 } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowUpRight, CheckCircle2, Clapperboard, Disc3, Film, Music2 } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
+import { LeadRequestModal } from '@/components/ui/LeadRequestModal'
 import * as PricingCard from '@/components/ui/pricing-card'
 import { withBaseUrl } from '@/lib/withBaseUrl'
 
@@ -120,12 +122,12 @@ function FilmCard({ index, film }: { index: number; film: FilmWork }) {
   )
 }
 
-function FilmServiceCard({ service }: { service: FilmService }) {
+function FilmServiceCard({ onRequest, service }: { onRequest: () => void; service: FilmService }) {
   const Icon = service.icon
 
   return (
     <PricingCard.Card className="flex h-full w-full border-transparent bg-transparent p-0.5 shadow-none">
-      <div className={`premium-tariff-card flex h-full w-full flex-1 flex-col rounded-[1.75rem] px-1.5 pb-[10px] pt-1.5 ${filmServiceTheme}`}>
+      <div className={`premium-tariff-card group flex h-full w-full flex-1 flex-col rounded-[1.75rem] px-1.5 pb-[10px] pt-1.5 ${filmServiceTheme}`}>
         <PricingCard.Header
           glassEffect={false}
           className="premium-tariff-header mb-0 rounded-[1.5rem] p-5"
@@ -151,20 +153,35 @@ function FilmServiceCard({ service }: { service: FilmService }) {
         </PricingCard.Header>
 
         <PricingCard.Body className="flex flex-1 flex-col px-5 pb-5 pt-4 space-y-0">
-          <PricingCard.Description className="premium-tariff-copy max-w-xl text-sm leading-6 text-white/62">
-            {service.description}
-          </PricingCard.Description>
+          <div>
+            <PricingCard.Description className="premium-tariff-copy max-w-xl text-sm leading-6 text-white/62">
+              {service.description}
+            </PricingCard.Description>
 
-          <PricingCard.List className="mt-6">
-            {service.features.map((feature) => (
-              <PricingCard.ListItem key={feature} className="premium-tariff-feature text-white/64">
-                <span className="mt-0.5">
-                  <CheckCircle2 className="h-4 w-4 text-white/90" aria-hidden="true" />
-                </span>
-                <span>{feature}</span>
-              </PricingCard.ListItem>
-            ))}
-          </PricingCard.List>
+            <PricingCard.List className="mt-6">
+              {service.features.map((feature) => (
+                <PricingCard.ListItem key={feature} className="premium-tariff-feature text-white/64">
+                  <span className="mt-0.5">
+                    <CheckCircle2 className="h-4 w-4 text-white/90" aria-hidden="true" />
+                  </span>
+                  <span>{feature}</span>
+                </PricingCard.ListItem>
+              ))}
+            </PricingCard.List>
+          </div>
+
+          <div className="premium-tariff-cta mt-auto space-y-4 pt-8">
+            <PricingCard.Separator className="premium-tariff-separator text-white/30" />
+
+            <button
+              type="button"
+              onClick={onRequest}
+              className="hero-chrome-button premium-tariff-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-[8px] px-6 text-sm font-semibold text-black"
+            >
+              Оставить заявку
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
         </PricingCard.Body>
       </div>
     </PricingCard.Card>
@@ -172,6 +189,8 @@ function FilmServiceCard({ service }: { service: FilmService }) {
 }
 
 export function FilmWorksSection() {
+  const [selectedService, setSelectedService] = useState<FilmService | null>(null)
+
   return (
     <section id="films" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
       <div className="mx-auto max-w-6xl">
@@ -185,7 +204,7 @@ export function FilmWorksSection() {
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {filmServices.map((service, index) => (
             <Reveal key={service.title} delay={index * 70} className="flex h-full">
-              <FilmServiceCard service={service} />
+              <FilmServiceCard service={service} onRequest={() => setSelectedService(service)} />
             </Reveal>
           ))}
         </div>
@@ -202,6 +221,12 @@ export function FilmWorksSection() {
           ))}
         </ul>
       </div>
+
+      <LeadRequestModal
+        isOpen={Boolean(selectedService)}
+        serviceTitle={selectedService?.title ?? ''}
+        onClose={() => setSelectedService(null)}
+      />
     </section>
   )
 }
