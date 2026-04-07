@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
-  ArrowUpRight,
   AudioLines,
   Captions,
   Clapperboard,
@@ -18,7 +17,6 @@ import {
 } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
-import { LeadRequestModal } from '@/components/ui/LeadRequestModal'
 
 type ServiceFlow = {
   input: string
@@ -205,13 +203,11 @@ function ServiceAccordionItem({
   index,
   isActive,
   onToggle,
-  onRequest,
   service,
 }: {
   index: number
   isActive: boolean
   onToggle: () => void
-  onRequest: () => void
   service: ServiceItem
 }) {
   const Icon = service.icon
@@ -293,17 +289,6 @@ function ServiceAccordionItem({
                 <p className="max-w-3xl text-sm leading-7 text-white/72 md:text-[15px]">
                   {service.description}
                 </p>
-
-                <div className="mt-5 flex">
-                  <button
-                    type="button"
-                    onClick={onRequest}
-                    className="hero-chrome-button inline-flex items-center justify-center gap-2 rounded-[14px] px-6 py-3 text-sm font-semibold text-black"
-                  >
-                    Запросить
-                    <ArrowUpRight className="h-4 w-4" />
-                  </button>
-                </div>
               </div>
             </div>
           </motion.div>
@@ -315,7 +300,6 @@ function ServiceAccordionItem({
 
 export function ServicesSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0)
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null)
 
   return (
     <section id="services" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
@@ -332,18 +316,11 @@ export function ServicesSection() {
                 service={service}
                 isActive={activeIndex === index}
                 onToggle={() => setActiveIndex((current) => (current === index ? null : index))}
-                onRequest={() => setSelectedService(service)}
               />
             </Reveal>
           ))}
         </div>
       </div>
-
-      <LeadRequestModal
-        isOpen={selectedService !== null}
-        serviceTitle={selectedService?.title ?? ''}
-        onClose={() => setSelectedService(null)}
-      />
     </section>
   )
 }
