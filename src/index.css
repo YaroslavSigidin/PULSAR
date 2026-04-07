@@ -2,6 +2,7 @@
 @import "@fontsource/geist-sans/500.css";
 @import "@fontsource/geist-sans/600.css";
 @import "@fontsource/geist-sans/700.css";
+@import "@fontsource/inter/800-italic.css";
 @import "@fontsource/bebas-neue/400.css";
 
 @tailwind base;
@@ -561,6 +562,14 @@
 
   .hero-chrome-button:active {
     transform: translateY(0) scale(0.995);
+  }
+
+  .hero-production-kicker {
+    font-family: "Inter", "Geist Sans", system-ui, sans-serif;
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
   }
 
   .hero-secondary-button {

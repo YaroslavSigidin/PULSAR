@@ -93,14 +93,10 @@ export function HeroSection() {
             </div>
           </div>
           <h1 className="sr-only">ПУЛЬСАР</h1>
+          <p className="hero-production-kicker -mt-2 text-[1rem] leading-tight text-white/86 md:-mt-8 md:text-[1.55rem]">
+            СТУДИЯ МУЗЫКАЛЬНОГО ПРОДАКШЕНА
+          </p>
         </motion.div>
-
-        <motion.p
-          variants={revealItem}
-          className="mt-3 max-w-[19rem] text-[15px] leading-6 tracking-tight text-white/72 md:mt-6 md:max-w-2xl md:text-base md:leading-7"
-        >
-          <span className="block">Студия музыкального продакшна полного цикла.</span>
-        </motion.p>
 
         <motion.div variants={revealItem} className="mt-10 hidden w-full max-w-[20.5rem] flex-col items-stretch gap-4 md:flex">
           <a

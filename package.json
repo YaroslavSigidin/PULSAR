@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/bebas-neue": "^5.2.7",
     "@fontsource/geist-sans": "^5.2.5",
+    "@fontsource/inter": "^5.2.8",
     "@paper-design/shaders-react": "^0.0.71",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
