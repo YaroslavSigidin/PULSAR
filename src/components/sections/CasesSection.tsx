@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { ArrowUpRight, Heart, Pause, Play, Send } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { withBaseUrl } from '@/lib/withBaseUrl'
@@ -107,112 +106,31 @@ function getYandexEmbedUrl(url: string) {
   return url
 }
 
-function TrackPlayer({
+function YandexMusicPlayer({
   track,
-  playerId,
-  isPlayerActive,
-  onTogglePlayer,
 }: {
   track: CaseTrack
-  playerId: string
-  isPlayerActive: boolean
-  onTogglePlayer: () => void
 }) {
-  const [isLiked, setIsLiked] = useState(false)
-  const playbackLabel = isPlayerActive ? 'Pause' : 'Play'
-
-  const handleShare = () => {
-    const shareData = {
-      title: `${track.artists} — ${track.title}`,
-      url: track.url,
-    }
-
-    if (navigator.share) {
-      void navigator.share(shareData).catch(() => undefined)
-      return
-    }
-
-    if (navigator.clipboard) {
-      void navigator.clipboard.writeText(track.url).catch(() => {
-        window.open(track.url, '_blank', 'noopener,noreferrer')
-      })
-      return
-    }
-
-    window.open(track.url, '_blank', 'noopener,noreferrer')
-  }
-
   return (
-    <>
-      <div
-        aria-label={`Действия для ${track.title}`}
-        className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
-      >
-        <button
-          type="button"
-          aria-label={isPlayerActive ? `Остановить ${track.title}` : `Включить ${track.title}`}
-          aria-controls={playerId}
-          aria-expanded={isPlayerActive}
-          aria-pressed={isPlayerActive}
-          onClick={onTogglePlayer}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/12 bg-white px-5 text-black transition duration-300 hover:scale-105 hover:bg-white/88"
-        >
-          {isPlayerActive ? (
-            <Pause className="h-4 w-4 fill-current" aria-hidden="true" />
-          ) : (
-            <Play className="h-4 w-4 fill-current" aria-hidden="true" />
-          )}
-          <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">{playbackLabel}</span>
-        </button>
-        <button
-          type="button"
-          aria-label={isLiked ? `Убрать лайк ${track.title}` : `Лайкнуть ${track.title}`}
-          aria-pressed={isLiked}
-          onClick={() => setIsLiked((value) => !value)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white data-[pressed=true]:border-white/60 data-[pressed=true]:bg-white data-[pressed=true]:text-black"
-          data-pressed={isLiked}
-        >
-          <Heart className={isLiked ? 'h-4 w-4 fill-current' : 'h-4 w-4'} aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          aria-label={`Переслать ${track.title}`}
-          onClick={handleShare}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white"
-        >
-          <Send className="h-4 w-4" aria-hidden="true" />
-        </button>
-      </div>
-
-      {isPlayerActive && (
-        <div className="mt-4 w-[min(100%,24rem)] overflow-hidden rounded-[1.35rem] border border-white/14 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.34)] backdrop-blur-md">
-          <iframe
-            id={playerId}
-            title={`Плеер Яндекс Музыки — ${track.title}`}
-            src={getYandexEmbedUrl(track.url)}
-            loading="eager"
-            className="h-[120px] w-full border-0"
-            allow="autoplay; clipboard-write; encrypted-media"
-          />
-        </div>
-      )}
-    </>
+    <div className="mt-5 w-[min(100%,26rem)] overflow-hidden rounded-[1.35rem] border border-white/14 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.34)] backdrop-blur-md">
+      <iframe
+        title={`Плеер Яндекс Музыки — ${track.title}`}
+        src={getYandexEmbedUrl(track.url)}
+        loading="lazy"
+        className="h-[100px] w-full border-0"
+        allow="autoplay; clipboard-write; encrypted-media"
+      />
+    </div>
   )
 }
 
 function CaseCard({
   index,
   track,
-  isPlayerActive,
-  onTogglePlayer,
 }: {
   index: number
   track: CaseTrack
-  isPlayerActive: boolean
-  onTogglePlayer: () => void
 }) {
-  const playerId = `case-yandex-player-${index}`
-
   return (
     <li>
       <article className="group relative flex h-full min-h-[500px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 transition duration-500 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.05] md:p-7">
@@ -247,12 +165,7 @@ function CaseCard({
           <h3 className="artist-name-chrome mt-4 max-w-[20rem] text-[2rem] font-semibold uppercase tracking-[-0.04em] text-white md:text-[2.5rem] md:leading-[0.95]">
             {track.title}
           </h3>
-          <TrackPlayer
-            track={track}
-            playerId={playerId}
-            isPlayerActive={isPlayerActive}
-            onTogglePlayer={onTogglePlayer}
-          />
+          <YandexMusicPlayer track={track} />
         </div>
       </article>
     </li>
@@ -260,12 +173,6 @@ function CaseCard({
 }
 
 export function CasesSection() {
-  const [activeTrackKey, setActiveTrackKey] = useState('')
-
-  const togglePlayer = (trackKey: string) => {
-    setActiveTrackKey((currentTrackKey) => (currentTrackKey === trackKey ? '' : trackKey))
-  }
-
   return (
     <section id="cases" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
       <div className="mx-auto max-w-6xl">
@@ -275,20 +182,11 @@ export function CasesSection() {
         </Reveal>
 
         <ul className="mt-14 grid gap-4 md:grid-cols-2">
-          {tracks.map((track, index) => {
-            const trackKey = `${track.artists}-${track.title}`
-
-            return (
-              <Reveal key={trackKey} delay={index * 40}>
-                <CaseCard
-                  index={index}
-                  track={track}
-                  isPlayerActive={activeTrackKey === trackKey}
-                  onTogglePlayer={() => togglePlayer(trackKey)}
-                />
-              </Reveal>
-            )
-          })}
+          {tracks.map((track, index) => (
+            <Reveal key={`${track.artists}-${track.title}`} delay={index * 40}>
+              <CaseCard index={index} track={track} />
+            </Reveal>
+          ))}
         </ul>
       </div>
     </section>
