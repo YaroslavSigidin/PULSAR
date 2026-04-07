@@ -42,7 +42,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: "Geist Sans", "Inter", system-ui, sans-serif;
+    font-family: "Geist Sans", system-ui, sans-serif;
   }
 
   h1,
@@ -934,7 +934,7 @@
   }
 
   .artist-name-column {
-    font-family: "Geist Sans", "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Geist Sans", "Helvetica Neue", Arial, sans-serif;
     color: #808080;
     letter-spacing: -0.045em;
     transition:
