@@ -189,13 +189,6 @@ export function LeadRequestModal({ isOpen, serviceTitle, onClose }: LeadRequestM
                 Отправить заявку
                 <ArrowUpRight className="h-4 w-4" />
               </button>
-              <button
-                type="button"
-                onClick={onClose}
-                className="inline-flex h-12 w-full items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-6 text-sm text-white/78 transition hover:bg-white/[0.06] md:w-auto"
-              >
-                Отмена
-              </button>
             </div>
           </form>
         </div>
