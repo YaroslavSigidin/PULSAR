@@ -92,8 +92,34 @@ const tracks: CaseTrack[] = [
   },
 ] as const
 
-function TrackPlayer({ track }: { track: CaseTrack }) {
+function getYandexPlayerUrl(url: string) {
+  const { pathname } = new URL(url)
+  const [, albumId, trackId] = pathname.match(/\/album\/(\d+)(?:\/track\/(\d+))?/) ?? []
+
+  if (albumId && trackId) {
+    return `https://music.yandex.ru/iframe/#track/${trackId}/${albumId}`
+  }
+
+  if (albumId) {
+    return `https://music.yandex.ru/iframe/#album/${albumId}`
+  }
+
+  return url
+}
+
+function TrackPlayer({
+  track,
+  trackKey,
+  activeTrackKey,
+  onActivate,
+}: {
+  track: CaseTrack
+  trackKey: string
+  activeTrackKey: string
+  onActivate: (trackKey: string) => void
+}) {
   const [isLiked, setIsLiked] = useState(false)
+  const isActive = activeTrackKey === trackKey
 
   const handleShare = () => {
     const shareData = {
@@ -116,20 +142,38 @@ function TrackPlayer({ track }: { track: CaseTrack }) {
     window.open(track.url, '_blank', 'noopener,noreferrer')
   }
 
+  if (isActive) {
+    return (
+      <div
+        aria-label={`Плеер ${track.title}`}
+        className="mt-5 inline-flex h-[52px] w-[154px] overflow-hidden rounded-full border border-white/12 bg-black/42 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
+      >
+        <iframe
+          key={trackKey}
+          title={`Плеер ${track.title}`}
+          src={getYandexPlayerUrl(track.url)}
+          loading="lazy"
+          className="block h-[52px] w-[154px] grayscale contrast-125 saturate-0"
+          allow="autoplay; clipboard-write; encrypted-media"
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       aria-label={`Плеер ${track.title}`}
+      onPointerEnter={() => onActivate(trackKey)}
       className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
     >
-      <a
-        href={track.url}
-        target="_blank"
-        rel="noreferrer"
+      <button
+        type="button"
         aria-label={`Включить ${track.title} в Яндекс Музыке`}
+        onClick={() => onActivate(trackKey)}
         className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white text-black transition duration-300 hover:scale-105 hover:bg-white/88"
       >
         <Play className="h-4 w-4 fill-current" aria-hidden="true" />
-      </a>
+      </button>
       <button
         type="button"
         aria-label={isLiked ? `Убрать лайк ${track.title}` : `Лайкнуть ${track.title}`}
@@ -152,7 +196,19 @@ function TrackPlayer({ track }: { track: CaseTrack }) {
   )
 }
 
-function CaseCard({ index, track }: { index: number; track: CaseTrack }) {
+function CaseCard({
+  index,
+  track,
+  trackKey,
+  activeTrackKey,
+  onActivateTrack,
+}: {
+  index: number
+  track: CaseTrack
+  trackKey: string
+  activeTrackKey: string
+  onActivateTrack: (trackKey: string) => void
+}) {
   return (
     <li>
       <article className="group relative flex min-h-[500px] h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 transition duration-500 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.05] md:p-7">
@@ -187,7 +243,12 @@ function CaseCard({ index, track }: { index: number; track: CaseTrack }) {
           <h3 className="artist-name-chrome mt-4 max-w-[20rem] text-[2rem] font-semibold uppercase tracking-[-0.04em] text-white md:text-[2.5rem] md:leading-[0.95]">
             {track.title}
           </h3>
-          <TrackPlayer track={track} />
+          <TrackPlayer
+            track={track}
+            trackKey={trackKey}
+            activeTrackKey={activeTrackKey}
+            onActivate={onActivateTrack}
+          />
         </div>
       </article>
     </li>
@@ -195,6 +256,8 @@ function CaseCard({ index, track }: { index: number; track: CaseTrack }) {
 }
 
 export function CasesSection() {
+  const [activeTrackKey, setActiveTrackKey] = useState('')
+
   return (
     <section id="cases" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
       <div className="mx-auto max-w-6xl">
@@ -204,11 +267,21 @@ export function CasesSection() {
         </Reveal>
 
         <ul className="mt-14 grid gap-4 md:grid-cols-2">
-          {tracks.map((track, index) => (
-            <Reveal key={`${track.artists}-${track.title}`} delay={index * 40}>
-              <CaseCard index={index} track={track} />
-            </Reveal>
-          ))}
+          {tracks.map((track, index) => {
+            const trackKey = `${track.artists}-${track.title}`
+
+            return (
+              <Reveal key={trackKey} delay={index * 40}>
+                <CaseCard
+                  index={index}
+                  track={track}
+                  trackKey={trackKey}
+                  activeTrackKey={activeTrackKey}
+                  onActivateTrack={setActiveTrackKey}
+                />
+              </Reveal>
+            )
+          })}
         </ul>
       </div>
     </section>
