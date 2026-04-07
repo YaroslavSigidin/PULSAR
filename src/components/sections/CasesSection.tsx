@@ -1,4 +1,5 @@
-import { ArrowUpRight } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowUpRight, Heart, Play, Send } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
 import { withBaseUrl } from '@/lib/withBaseUrl'
@@ -91,31 +92,62 @@ const tracks: CaseTrack[] = [
   },
 ] as const
 
-function getYandexPlayerUrl(url: string) {
-  const { pathname } = new URL(url)
-  const [, albumId, trackId] = pathname.match(/\/album\/(\d+)(?:\/track\/(\d+))?/) ?? []
-
-  if (albumId && trackId) {
-    return `https://music.yandex.ru/iframe/#track/${trackId}/${albumId}`
-  }
-
-  if (albumId) {
-    return `https://music.yandex.ru/iframe/#album/${albumId}`
-  }
-
-  return url
-}
-
 function TrackPlayer({ track }: { track: CaseTrack }) {
+  const [isLiked, setIsLiked] = useState(false)
+
+  const handleShare = () => {
+    const shareData = {
+      title: `${track.artists} — ${track.title}`,
+      url: track.url,
+    }
+
+    if (navigator.share) {
+      void navigator.share(shareData).catch(() => undefined)
+      return
+    }
+
+    if (navigator.clipboard) {
+      void navigator.clipboard.writeText(track.url).catch(() => {
+        window.open(track.url, '_blank', 'noopener,noreferrer')
+      })
+      return
+    }
+
+    window.open(track.url, '_blank', 'noopener,noreferrer')
+  }
+
   return (
-    <div className="mt-5 overflow-hidden rounded-[1rem] border border-white/12 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md">
-      <iframe
-        title={`${track.artists} — ${track.title}`}
-        src={getYandexPlayerUrl(track.url)}
-        loading="lazy"
-        className="block h-[92px] w-full grayscale contrast-125 saturate-0"
-        allow="autoplay; clipboard-write; encrypted-media"
-      />
+    <div
+      aria-label={`Плеер ${track.title}`}
+      className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
+    >
+      <a
+        href={track.url}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Включить ${track.title} в Яндекс Музыке`}
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white text-black transition duration-300 hover:scale-105 hover:bg-white/88"
+      >
+        <Play className="h-4 w-4 fill-current" aria-hidden="true" />
+      </a>
+      <button
+        type="button"
+        aria-label={isLiked ? `Убрать лайк ${track.title}` : `Лайкнуть ${track.title}`}
+        aria-pressed={isLiked}
+        onClick={() => setIsLiked((value) => !value)}
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white data-[pressed=true]:border-white/60 data-[pressed=true]:bg-white data-[pressed=true]:text-black"
+        data-pressed={isLiked}
+      >
+        <Heart className={isLiked ? 'h-4 w-4 fill-current' : 'h-4 w-4'} aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        aria-label={`Переслать ${track.title}`}
+        onClick={handleShare}
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white"
+      >
+        <Send className="h-4 w-4" aria-hidden="true" />
+      </button>
     </div>
   )
 }
