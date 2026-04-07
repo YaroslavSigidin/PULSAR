@@ -221,6 +221,7 @@
   .apple-liquid-bar {
     position: relative;
     isolation: isolate;
+    max-width: 100%;
     background: rgba(255, 255, 255, 0.032);
     border: 1px solid rgba(255, 255, 255, 0.14);
     box-shadow:
@@ -241,10 +242,13 @@
   }
 
   .apple-liquid-cluster {
-    display: inline-flex;
     align-items: center;
     gap: 0.32rem;
     padding: 0;
+  }
+
+  .apple-liquid-desktop-nav {
+    display: none;
   }
 
   .apple-liquid-segment,
@@ -397,8 +401,13 @@
     box-shadow: none;
   }
 
+  .apple-liquid-menu-button {
+    border-radius: 999px;
+  }
+
   .apple-liquid-mobile-panel {
     position: relative;
+    width: min(22rem, calc(100vw - 1.5rem));
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.02);
     box-shadow:
@@ -416,7 +425,46 @@
     text-decoration: none;
     font-size: 0.98rem;
     font-weight: 500;
-    text-align: center;
+    text-align: left;
+  }
+
+  @media (max-width: 1279px) {
+    .apple-liquid-header::before {
+      inset: 0 0 -1rem 0;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 8, 10, 0.7) 0%,
+        rgba(8, 8, 10, 0.38) 56%,
+        rgba(8, 8, 10, 0) 100%
+      );
+    }
+
+    .apple-liquid-bar {
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow:
+        0 18px 46px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.13);
+    }
+
+    .apple-liquid-menu-button {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .apple-liquid-mobile-panel {
+      background: rgba(12, 12, 14, 0.72);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .apple-liquid-desktop-nav {
+      display: inline-flex;
+    }
+
+    .apple-liquid-menu-button,
+    .apple-liquid-mobile-panel {
+      display: none;
+    }
   }
 
   .lead-border-highlight {
