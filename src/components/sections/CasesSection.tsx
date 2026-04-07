@@ -162,9 +162,6 @@ export function CasesSection() {
         <Reveal className="mx-auto max-w-4xl text-center">
           <p className="text-xs tracking-[0.16em] text-white/45">SELECTED RELEASES</p>
           <h2 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">Наши кейсы</h2>
-          <p className="mx-auto mt-4 max-w-4xl text-xl text-white/65 md:text-[34px] md:leading-[1.18]">
-            Реальные релизы, которые мы собирали под ключ: от записи и продакшна до готового выхода.
-          </p>
         </Reveal>
 
         <ul className="mt-14 grid gap-4 md:grid-cols-2">
