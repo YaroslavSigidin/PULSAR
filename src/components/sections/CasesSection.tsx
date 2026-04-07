@@ -91,43 +91,6 @@ const tracks: CaseTrack[] = [
   },
 ] as const
 
-function getYandexEmbedUrl(url: string) {
-  const { pathname } = new URL(url)
-  const [, albumId, trackId] = pathname.match(/\/album\/(\d+)(?:\/track\/(\d+))?/) ?? []
-
-  if (albumId && trackId) {
-    return `https://music.yandex.ru/iframe/track/${trackId}/${albumId}`
-  }
-
-  if (albumId) {
-    return `https://music.yandex.ru/iframe/album/${albumId}`
-  }
-
-  return url
-}
-
-function YandexMusicPlayer({
-  track,
-}: {
-  track: CaseTrack
-}) {
-  return (
-    <div className="relative mt-5 w-[min(100%,26rem)] overflow-hidden rounded-[1.35rem] border border-white/14 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.34)] backdrop-blur-md">
-      <iframe
-        title={`Плеер Яндекс Музыки — ${track.title}`}
-        src={getYandexEmbedUrl(track.url)}
-        loading="lazy"
-        className="h-[100px] w-full border-0"
-        allow="autoplay; clipboard-write; encrypted-media"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[4.75rem] right-4 top-3 h-12 rounded-[1rem] bg-[#111111] shadow-[0_0_18px_18px_#111111] sm:left-[5.5rem]"
-      />
-    </div>
-  )
-}
-
 function CaseCard({
   index,
   track,
@@ -142,10 +105,8 @@ function CaseCard({
           <img
             src={track.cover}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.24] saturate-[0.98] brightness-[0.92] transition duration-500 group-hover:scale-[1.04] group-hover:opacity-[0.28]"
+            className="absolute inset-0 h-full w-full origin-top scale-[1.55] object-cover object-top opacity-100 saturate-[1.02] transition duration-500 group-hover:scale-[1.62]"
           />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_28%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.46),rgba(0,0,0,0.74)_42%,rgba(0,0,0,0.94))]" />
         </div>
 
         <a
@@ -169,7 +130,6 @@ function CaseCard({
           <h3 className="artist-name-chrome mt-4 max-w-[20rem] text-[2rem] font-semibold uppercase tracking-[-0.04em] text-white md:text-[2.5rem] md:leading-[0.95]">
             {track.title}
           </h3>
-          <YandexMusicPlayer track={track} />
         </div>
       </article>
     </li>
