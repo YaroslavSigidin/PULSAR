@@ -42,6 +42,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: "Geist Sans", system-ui, sans-serif;
+    overflow-x: hidden;
   }
 
   h1,
@@ -566,8 +567,14 @@
   .hero-production-kicker {
     position: relative;
     isolation: isolate;
-    transform: translateY(-100px);
+    transform: none;
     filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.16)) drop-shadow(0 10px 24px rgba(0, 0, 0, 0.42));
+  }
+
+  @media (min-width: 768px) {
+    .hero-production-kicker {
+      transform: translateY(-100px);
+    }
   }
 
   .hero-secondary-button {

@@ -34,7 +34,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 1280) {
         setIsMobileMenuOpen(false)
       }
     }
@@ -46,19 +46,19 @@ export function Navbar() {
   const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
   return (
-    <header className="apple-liquid-header fixed inset-x-0 top-0 z-40 px-4 py-4 lg:px-6 lg:py-5">
+    <header className="apple-liquid-header fixed inset-x-0 top-0 z-40 px-4 py-4 sm:px-5 xl:px-6 xl:py-5">
       <div className="mx-auto max-w-6xl">
-        <nav className="apple-liquid-bar flex w-full items-center justify-between gap-3 rounded-[1.85rem] px-3 py-3 lg:rounded-[2rem] lg:px-4">
+        <nav className="apple-liquid-bar flex w-full items-center justify-between gap-3 rounded-[1.85rem] px-3 py-3 xl:rounded-[2rem] xl:px-4">
           <div className="flex items-center gap-4">
             <a href="#" className="apple-liquid-brand apple-liquid-logo" onClick={closeMobileMenu}>
               <img
                 src={logoImage}
                 alt="KKB Studio"
-                className="h-10 w-10 rounded-[0.95rem] object-contain lg:h-11 lg:w-11"
+                className="h-10 w-10 rounded-[0.95rem] object-contain xl:h-11 xl:w-11"
               />
             </a>
 
-            <div className="apple-liquid-cluster hidden lg:flex">
+            <div className="apple-liquid-cluster hidden xl:flex">
               {navItems.map((item) => (
                 <a
                   key={item.label}
@@ -74,7 +74,7 @@ export function Navbar() {
             </div>
           </div>
 
-          <div className="apple-liquid-cluster hidden lg:flex">
+          <div className="apple-liquid-cluster hidden xl:flex">
             <a
               href="https://t.me/trepanate_me"
               target="_blank"
@@ -99,7 +99,7 @@ export function Navbar() {
             aria-controls={mobileMenuId}
             aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen((value) => !value)}
-            className="apple-liquid-brand lg:hidden"
+            className="apple-liquid-brand xl:hidden"
           >
             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -113,7 +113,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -10, filter: 'blur(8px)' }}
               transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-              className="apple-liquid-mobile-panel mt-3 overflow-hidden rounded-[1.85rem] p-3 lg:hidden"
+              className="apple-liquid-mobile-panel mt-3 overflow-hidden rounded-[1.85rem] p-3 xl:hidden"
             >
               <div className="grid gap-1.5">
                 {navItems.map((item) => (
