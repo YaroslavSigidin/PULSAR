@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { ArrowUpRight, Heart, Pause, Play, Send } from 'lucide-react'
 
 import { Reveal } from '@/components/ui/Reveal'
@@ -9,10 +9,7 @@ type CaseTrack = {
   title: string
   url: string
   cover: string
-  audioUrl?: string
 }
-
-type PlaybackState = 'idle' | 'loading' | 'playing' | 'error'
 
 const tracks: CaseTrack[] = [
   {
@@ -86,7 +83,6 @@ const tracks: CaseTrack[] = [
     title: 'FLAGMAN',
     url: 'https://music.yandex.ru/album/37458189/track/141103758?utm_source=web&utm_medium=copy_link',
     cover: withBaseUrl('case-covers/flagman.jpg'),
-    audioUrl: withBaseUrl('case-audio/flagman.mp3'),
   },
   {
     artists: 'gotlibgotlibgotlib',
@@ -96,20 +92,34 @@ const tracks: CaseTrack[] = [
   },
 ] as const
 
+function getYandexEmbedUrl(url: string) {
+  const { pathname } = new URL(url)
+  const [, albumId, trackId] = pathname.match(/\/album\/(\d+)(?:\/track\/(\d+))?/) ?? []
+
+  if (albumId && trackId) {
+    return `https://music.yandex.ru/iframe/album/${albumId}/track/${trackId}`
+  }
+
+  if (albumId) {
+    return `https://music.yandex.ru/iframe/album/${albumId}`
+  }
+
+  return url
+}
+
 function TrackPlayer({
   track,
-  playbackState,
-  onTogglePlayback,
+  playerId,
+  isPlayerActive,
+  onTogglePlayer,
 }: {
   track: CaseTrack
-  playbackState: PlaybackState
-  onTogglePlayback: () => void
+  playerId: string
+  isPlayerActive: boolean
+  onTogglePlayer: () => void
 }) {
   const [isLiked, setIsLiked] = useState(false)
-  const isLoading = playbackState === 'loading'
-  const isPlaying = playbackState === 'playing'
-  const hasPlaybackError = playbackState === 'error'
-  const playbackLabel = isLoading ? 'Loading' : isPlaying ? 'Pause' : 'Play'
+  const playbackLabel = isPlayerActive ? 'Pause' : 'Play'
 
   const handleShare = () => {
     const shareData = {
@@ -133,62 +143,79 @@ function TrackPlayer({
   }
 
   return (
-    <div
-      aria-label={`Действия для ${track.title}`}
-      className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
-    >
-      <button
-        type="button"
-        aria-label={isPlaying ? `Поставить ${track.title} на паузу` : `Включить ${track.title}`}
-        aria-pressed={isPlaying}
-        disabled={isLoading}
-        onClick={onTogglePlayback}
-        title={hasPlaybackError ? 'Не найден прямой аудиофайл для воспроизведения' : undefined}
-        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/12 bg-white px-5 text-black transition duration-300 hover:scale-105 hover:bg-white/88"
+    <>
+      <div
+        aria-label={`Действия для ${track.title}`}
+        className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
       >
-        {isPlaying ? (
-          <Pause className="h-4 w-4 fill-current" aria-hidden="true" />
-        ) : (
-          <Play className="h-4 w-4 fill-current" aria-hidden="true" />
-        )}
-        <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">{playbackLabel}</span>
-      </button>
-      <button
-        type="button"
-        aria-label={isLiked ? `Убрать лайк ${track.title}` : `Лайкнуть ${track.title}`}
-        aria-pressed={isLiked}
-        onClick={() => setIsLiked((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white data-[pressed=true]:border-white/60 data-[pressed=true]:bg-white data-[pressed=true]:text-black"
-        data-pressed={isLiked}
-      >
-        <Heart className={isLiked ? 'h-4 w-4 fill-current' : 'h-4 w-4'} aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        aria-label={`Переслать ${track.title}`}
-        onClick={handleShare}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white"
-      >
-        <Send className="h-4 w-4" aria-hidden="true" />
-      </button>
-    </div>
+        <button
+          type="button"
+          aria-label={isPlayerActive ? `Остановить ${track.title}` : `Включить ${track.title}`}
+          aria-controls={playerId}
+          aria-expanded={isPlayerActive}
+          aria-pressed={isPlayerActive}
+          onClick={onTogglePlayer}
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/12 bg-white px-5 text-black transition duration-300 hover:scale-105 hover:bg-white/88"
+        >
+          {isPlayerActive ? (
+            <Pause className="h-4 w-4 fill-current" aria-hidden="true" />
+          ) : (
+            <Play className="h-4 w-4 fill-current" aria-hidden="true" />
+          )}
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">{playbackLabel}</span>
+        </button>
+        <button
+          type="button"
+          aria-label={isLiked ? `Убрать лайк ${track.title}` : `Лайкнуть ${track.title}`}
+          aria-pressed={isLiked}
+          onClick={() => setIsLiked((value) => !value)}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white data-[pressed=true]:border-white/60 data-[pressed=true]:bg-white data-[pressed=true]:text-black"
+          data-pressed={isLiked}
+        >
+          <Heart className={isLiked ? 'h-4 w-4 fill-current' : 'h-4 w-4'} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          aria-label={`Переслать ${track.title}`}
+          onClick={handleShare}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/72 transition duration-300 hover:border-white/34 hover:bg-white/10 hover:text-white"
+        >
+          <Send className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
+
+      {isPlayerActive && (
+        <div className="mt-4 w-[min(100%,24rem)] overflow-hidden rounded-[1.35rem] border border-white/14 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.34)] backdrop-blur-md">
+          <iframe
+            id={playerId}
+            title={`Плеер Яндекс Музыки — ${track.title}`}
+            src={getYandexEmbedUrl(track.url)}
+            loading="eager"
+            className="h-[120px] w-full border-0"
+            allow="autoplay; clipboard-write; encrypted-media"
+          />
+        </div>
+      )}
+    </>
   )
 }
 
 function CaseCard({
   index,
   track,
-  playbackState,
-  onTogglePlayback,
+  isPlayerActive,
+  onTogglePlayer,
 }: {
   index: number
   track: CaseTrack
-  playbackState: PlaybackState
-  onTogglePlayback: () => void
+  isPlayerActive: boolean
+  onTogglePlayer: () => void
 }) {
+  const playerId = `case-yandex-player-${index}`
+
   return (
     <li>
-      <article className="group relative flex min-h-[500px] h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 transition duration-500 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.05] md:p-7">
+      <article className="group relative flex h-full min-h-[500px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 transition duration-500 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.05] md:p-7">
         <div className="pointer-events-none absolute inset-0">
           <img
             src={track.cover}
@@ -220,7 +247,12 @@ function CaseCard({
           <h3 className="artist-name-chrome mt-4 max-w-[20rem] text-[2rem] font-semibold uppercase tracking-[-0.04em] text-white md:text-[2.5rem] md:leading-[0.95]">
             {track.title}
           </h3>
-          <TrackPlayer track={track} playbackState={playbackState} onTogglePlayback={onTogglePlayback} />
+          <TrackPlayer
+            track={track}
+            playerId={playerId}
+            isPlayerActive={isPlayerActive}
+            onTogglePlayer={onTogglePlayer}
+          />
         </div>
       </article>
     </li>
@@ -228,80 +260,14 @@ function CaseCard({
 }
 
 export function CasesSection() {
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const activeTrackKeyRef = useRef('')
-  const [loadingTrackKey, setLoadingTrackKey] = useState('')
-  const [playingTrackKey, setPlayingTrackKey] = useState('')
-  const [errorTrackKey, setErrorTrackKey] = useState('')
+  const [activeTrackKey, setActiveTrackKey] = useState('')
 
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return undefined
-
-    const resetPlaybackState = () => {
-      setLoadingTrackKey('')
-      setPlayingTrackKey('')
-    }
-
-    const markPlaybackError = () => {
-      setLoadingTrackKey('')
-      setPlayingTrackKey('')
-      setErrorTrackKey(activeTrackKeyRef.current)
-    }
-
-    audio.addEventListener('ended', resetPlaybackState)
-    audio.addEventListener('error', markPlaybackError)
-
-    return () => {
-      audio.removeEventListener('ended', resetPlaybackState)
-      audio.removeEventListener('error', markPlaybackError)
-    }
-  }, [])
-
-  const togglePlayback = async (trackKey: string, track: CaseTrack) => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    if (playingTrackKey === trackKey) {
-      audio.pause()
-      setPlayingTrackKey('')
-      setLoadingTrackKey('')
-      return
-    }
-
-    if (!track.audioUrl) {
-      audio.pause()
-      setPlayingTrackKey('')
-      setLoadingTrackKey('')
-      setErrorTrackKey(trackKey)
-      window.open(track.url, '_blank', 'noopener,noreferrer')
-      return
-    }
-
-    activeTrackKeyRef.current = trackKey
-    setErrorTrackKey('')
-    setLoadingTrackKey(trackKey)
-
-    const nextAudioUrl = new URL(track.audioUrl, window.location.href).href
-    if (audio.src !== nextAudioUrl) {
-      audio.src = track.audioUrl
-      audio.load()
-    }
-
-    try {
-      await audio.play()
-      setPlayingTrackKey(trackKey)
-    } catch {
-      setErrorTrackKey(trackKey)
-      setPlayingTrackKey('')
-    } finally {
-      setLoadingTrackKey('')
-    }
+  const togglePlayer = (trackKey: string) => {
+    setActiveTrackKey((currentTrackKey) => (currentTrackKey === trackKey ? '' : trackKey))
   }
 
   return (
     <section id="cases" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
-      <audio ref={audioRef} preload="none" className="hidden" />
       <div className="mx-auto max-w-6xl">
         <Reveal className="mx-auto max-w-4xl text-center">
           <p className="text-xs tracking-[0.16em] text-white/45">SELECTED RELEASES</p>
@@ -311,22 +277,14 @@ export function CasesSection() {
         <ul className="mt-14 grid gap-4 md:grid-cols-2">
           {tracks.map((track, index) => {
             const trackKey = `${track.artists}-${track.title}`
-            const playbackState =
-              loadingTrackKey === trackKey
-                ? 'loading'
-                : playingTrackKey === trackKey
-                  ? 'playing'
-                  : errorTrackKey === trackKey
-                    ? 'error'
-                    : 'idle'
 
             return (
               <Reveal key={trackKey} delay={index * 40}>
                 <CaseCard
                   index={index}
                   track={track}
-                  playbackState={playbackState}
-                  onTogglePlayback={() => void togglePlayback(trackKey, track)}
+                  isPlayerActive={activeTrackKey === trackKey}
+                  onTogglePlayer={() => togglePlayer(trackKey)}
                 />
               </Reveal>
             )
