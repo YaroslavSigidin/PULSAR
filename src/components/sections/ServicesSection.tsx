@@ -254,7 +254,7 @@ function ServiceAccordionItem({
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="mb-2 text-[10px] uppercase tracking-[0.24em] text-white/34 md:text-[11px]">
+          <p className="mb-2 hidden text-[10px] uppercase tracking-[0.24em] text-white/34 md:block md:text-[11px]">
             {service.pulse}
           </p>
           <div className="flex min-w-0 items-center gap-3">
@@ -305,20 +305,28 @@ export function ServicesSection() {
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
 
   return (
-    <section id="services" className="scroll-mt-28 bg-black px-4 pb-28 pt-[7.5rem] text-white">
-      <div className="mx-auto max-w-6xl">
-        <Reveal className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">
-            Комплексное сопровождение клиента по всем направлениям
-          </h2>
-          <button
-            type="button"
-            onClick={() => setIsRequestModalOpen(true)}
-            className="hero-chrome-button mx-auto mt-7 inline-flex w-full max-w-[18rem] items-center justify-center gap-2 rounded-[8px] px-7 py-3.5 text-sm font-semibold text-black"
-          >
-            Оставить заявку
-            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </button>
+    <section id="services" className="relative scroll-mt-28 overflow-hidden bg-black px-4 pb-28 pt-[7.5rem] text-white">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.075),transparent_58%)]" />
+
+      <div className="relative z-10 mx-auto max-w-6xl">
+        <Reveal className="relative mx-auto overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] px-5 py-12 text-center shadow-[0_32px_110px_rgba(0,0,0,0.52),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-40px_90px_rgba(0,0,0,0.45)] md:px-12 md:py-16">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-12%,rgba(255,255,255,0.2),transparent_34%),radial-gradient(circle_at_82%_28%,rgba(162,178,224,0.12),transparent_24%),radial-gradient(circle_at_14%_78%,rgba(255,255,255,0.07),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.012)_48%,rgba(0,0,0,0.7)_100%)]" />
+          <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+          <div className="pointer-events-none absolute left-1/2 top-8 h-28 w-[42rem] -translate-x-1/2 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent blur-2xl" />
+
+          <div className="relative z-10 mx-auto max-w-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">
+              Комплексное сопровождение клиента по всем направлениям
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsRequestModalOpen(true)}
+              className="hero-chrome-button mx-auto mt-7 inline-flex w-full max-w-[18rem] items-center justify-center gap-2 rounded-[8px] px-7 py-3.5 text-sm font-semibold text-black"
+            >
+              Оставить заявку
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
         </Reveal>
 
         <div className="mt-8 space-y-3">

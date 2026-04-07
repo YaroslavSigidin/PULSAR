@@ -113,7 +113,7 @@ export function LeadRequestModal({ isOpen, serviceTitle, onClose }: LeadRequestM
         <div className="relative flex flex-col items-center text-center">
           <p className="text-xs tracking-[0.16em] text-white/38">ЗАЯВКА</p>
           <h3 id="lead-request-modal-title" className="mt-4 max-w-xl text-3xl font-semibold tracking-tight md:text-[2rem]">
-            Записаться
+            Оставить заявку
           </h3>
           <p className="mt-3 max-w-xl text-sm leading-6 text-white/62">
             Оставь контакты, и студия свяжется с тобой по выбранной услуге.
@@ -186,7 +186,7 @@ export function LeadRequestModal({ isOpen, serviceTitle, onClose }: LeadRequestM
                 type="submit"
                 className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/14 bg-white px-6 text-sm font-semibold text-black shadow-[0_14px_34px_rgba(255,255,255,0.08),0_14px_32px_rgba(0,0,0,0.28)] transition hover:bg-white/92"
               >
-                Записаться
+                Отправить
                 <ArrowUpRight className="h-4 w-4" />
               </button>
             </div>

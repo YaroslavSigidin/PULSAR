@@ -143,7 +143,10 @@ function FilmServiceCard({ onRequest, service }: { onRequest: () => void; servic
           </PricingCard.Plan>
 
           <PricingCard.Price className="mb-4 min-w-0 flex-col items-start gap-2">
-            <PricingCard.MainPrice className="premium-tariff-title chrome-text-animated max-w-full break-words text-[clamp(1.2rem,2.733vw,2rem)] leading-[0.9] tracking-[-0.08em] md:text-[clamp(1.333rem,1.7vw,1.7rem)] xl:text-[1.8rem]">
+            <PricingCard.MainPrice
+              className="premium-tariff-title chrome-text-animated max-w-full break-words text-[clamp(1.2rem,2.733vw,2rem)] leading-[0.9] tracking-[0px] ![letter-spacing:0px] md:text-[clamp(1.333rem,1.7vw,1.7rem)] xl:text-[1.8rem]"
+              style={{ letterSpacing: '0px' }}
+            >
               {service.title}
             </PricingCard.MainPrice>
             <PricingCard.Period className="pb-0 text-sm text-white/50">
