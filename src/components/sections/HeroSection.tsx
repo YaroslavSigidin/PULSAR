@@ -107,7 +107,7 @@ export function HeroSection() {
             href="#lead-form"
             className="hero-chrome-button inline-flex w-full items-center justify-center gap-2 rounded-[8px] px-7 py-3.5 text-sm font-semibold text-black"
           >
-            Записаться на студию
+            Оставить заявку
             <ArrowUpRight className="h-4 w-4" />
           </a>
           <a
