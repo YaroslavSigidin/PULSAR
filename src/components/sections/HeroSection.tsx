@@ -93,30 +93,6 @@ export function HeroSection() {
             </div>
           </div>
           <h1 className="sr-only">ПУЛЬСАР</h1>
-          <div
-            className="hero-production-kicker mx-auto -mt-2 h-[36px] w-[min(96vw,440px)] md:-mt-8 md:h-[76px] md:w-[980px]"
-            aria-hidden="true"
-          >
-            <LiquidMetal
-              width="100%"
-              height="100%"
-              image={withBaseUrl('production-kicker-mask.svg')}
-              colorBack="rgba(0,0,0,0)"
-              colorTint="#ffffff"
-              shape="diamond"
-              repetition={2}
-              softness={0.1}
-              shiftRed={0.3}
-              shiftBlue={0.3}
-              distortion={0.07}
-              contour={0.4}
-              angle={70}
-              speed={1}
-              scale={1.25}
-              fit="contain"
-            />
-          </div>
-          <p className="sr-only">СТУДИЯ МУЗЫКАЛЬНОГО ПРОДАКШЕНА</p>
         </motion.div>
 
         <motion.div variants={revealItem} className="mt-8 flex w-full max-w-[20.5rem] flex-col items-stretch gap-3 md:mt-10 md:gap-4">
