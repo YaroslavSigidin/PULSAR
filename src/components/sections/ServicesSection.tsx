@@ -239,6 +239,7 @@ function ServiceAccordionItem({
       <button
         type="button"
         onClick={onToggle}
+        aria-label={`${isActive ? 'Свернуть' : 'Раскрыть'} услугу: ${service.title}`}
         aria-expanded={isActive}
         aria-controls={`service-panel-${index}`}
         className="relative flex w-full items-center gap-4 px-5 py-5 text-left md:px-7 md:py-6"
@@ -253,16 +254,7 @@ function ServiceAccordionItem({
           <Icon className="h-[18px] w-[18px]" />
         </div>
 
-        <div className="min-w-0 flex-1">
-          <p className="mb-2 hidden text-[10px] uppercase tracking-[0.24em] text-white/34 md:block md:text-[11px]">
-            {service.pulse}
-          </p>
-          <div className="flex min-w-0 items-center gap-3">
-            <h3 className="min-w-0 font-sans text-[1.05rem] font-medium leading-tight tracking-tight text-white md:text-[1.3rem]">
-              {service.title}
-            </h3>
-          </div>
-        </div>
+        <div className="min-w-0 flex-1" aria-hidden="true" />
 
         <div className="flex shrink-0 items-center gap-3 md:gap-5">
           <span className="text-sm text-white/34 md:text-[1.05rem]">{String(index + 1).padStart(2, '0')}</span>
