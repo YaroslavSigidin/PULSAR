@@ -112,13 +112,17 @@ function YandexMusicPlayer({
   track: CaseTrack
 }) {
   return (
-    <div className="mt-5 w-[min(100%,26rem)] overflow-hidden rounded-[1.35rem] border border-white/14 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.34)] backdrop-blur-md">
+    <div className="relative mt-5 w-[min(100%,26rem)] overflow-hidden rounded-[1.35rem] border border-white/14 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.34)] backdrop-blur-md">
       <iframe
         title={`Плеер Яндекс Музыки — ${track.title}`}
         src={getYandexEmbedUrl(track.url)}
         loading="lazy"
         className="h-[100px] w-full border-0"
         allow="autoplay; clipboard-write; encrypted-media"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[4.75rem] right-4 top-3 h-12 rounded-[1rem] bg-[#111111] shadow-[0_0_18px_18px_#111111] sm:left-[5.5rem]"
       />
     </div>
   )
