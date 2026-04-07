@@ -148,7 +148,7 @@ function CaseCard({
           onClick={onPlayerToggle}
           aria-label={isPlaying ? `Остановить ${track.title}` : `Включить ${track.title}`}
           aria-pressed={isPlaying}
-          className="absolute bottom-6 right-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/82 backdrop-blur-md transition duration-300 hover:border-white/36 hover:bg-white hover:text-black md:bottom-7 md:right-7"
+          className="absolute left-1/2 top-1/2 z-20 inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full border border-white/18 bg-black/55 px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/86 opacity-0 shadow-[0_18px_48px_rgba(0,0,0,0.38)] backdrop-blur-md transition duration-300 hover:border-white/36 hover:bg-white hover:text-black group-hover:opacity-100 group-focus-within:opacity-100"
         >
           <span
             aria-hidden="true"
