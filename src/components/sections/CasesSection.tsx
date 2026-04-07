@@ -148,9 +148,7 @@ function CaseCard({
           onClick={onPlayerToggle}
           aria-label={isPlaying ? `Остановить ${track.title}` : `Включить ${track.title}`}
           aria-pressed={isPlaying}
-          className={`absolute bottom-6 right-6 z-20 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/55 text-white/86 shadow-[0_18px_48px_rgba(0,0,0,0.38)] backdrop-blur-md transition duration-300 hover:border-white/36 hover:bg-white hover:text-black group-focus-within:opacity-100 group-hover:opacity-100 md:bottom-7 md:right-7 ${
-            isPlaying ? 'opacity-100' : 'opacity-100 md:opacity-0'
-          }`}
+          className="absolute bottom-6 right-6 z-20 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/55 text-white/86 opacity-100 shadow-[0_18px_48px_rgba(0,0,0,0.38)] backdrop-blur-md transition duration-300 hover:border-white/36 hover:bg-white hover:text-black md:bottom-7 md:right-7"
         >
           <span
             aria-hidden="true"
