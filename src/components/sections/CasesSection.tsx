@@ -20,7 +20,7 @@ const tracks: CaseTrack[] = [
   {
     artists: 'Молодой Платон, ЛСП',
     title: 'Секретарша',
-    url: 'https://music.yandex.ru/album/32901624?utm_source=web&utm_medium=copy_link',
+    url: 'https://music.yandex.ru/album/32901624/track/130173426?utm_source=web&utm_medium=copy_link',
     cover: withBaseUrl('case-covers/sekretarsha.jpg'),
   },
   {
@@ -96,7 +96,7 @@ function getYandexEmbedUrl(url: string) {
   const [, albumId, trackId] = pathname.match(/\/album\/(\d+)(?:\/track\/(\d+))?/) ?? []
 
   if (albumId && trackId) {
-    return `https://music.yandex.ru/iframe/album/${albumId}/track/${trackId}`
+    return `https://music.yandex.ru/iframe/track/${trackId}/${albumId}`
   }
 
   if (albumId) {
