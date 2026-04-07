@@ -113,7 +113,7 @@ export function KeyServicesSection() {
                       </PricingCard.Plan>
 
                       <PricingCard.Price className="mb-4 flex-col items-start gap-2">
-                        <PricingCard.MainPrice className="premium-tariff-title chrome-text-animated text-3xl md:text-4xl">
+                        <PricingCard.MainPrice className="premium-tariff-title chrome-text-animated text-xl md:text-2xl">
                           {service.title}
                         </PricingCard.MainPrice>
                         <PricingCard.Period className="pb-0 text-sm text-white/52">
