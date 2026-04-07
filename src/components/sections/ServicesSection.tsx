@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowUpRight,
   AudioLines,
@@ -8,9 +7,7 @@ import {
   Disc3,
   Megaphone,
   Mic2,
-  Minus,
   Music2,
-  Plus,
   Radio,
   Sparkles,
   SlidersHorizontal,
@@ -194,128 +191,10 @@ const services: ServiceItem[] = [
   },
 ]
 
-const panelMotion = {
-  initial: { height: 0, opacity: 0 },
-  animate: { height: 'auto', opacity: 1 },
-  exit: { height: 0, opacity: 0 },
-  transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-}
-
-function ServiceAccordionItem({
-  index,
-  isActive,
-  onToggle,
-  onRequest,
-  service,
-}: {
-  index: number
-  isActive: boolean
-  onToggle: () => void
-  onRequest: () => void
-  service: ServiceItem
-}) {
-  const Icon = service.icon
-
-  return (
-    <motion.article
-      layout
-      className={`group relative overflow-hidden rounded-[2rem] border transition-[border-color,background-color,box-shadow] duration-500 ${
-        isActive
-          ? 'border-white/18 bg-white/[0.045] shadow-[0_28px_84px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.08)]'
-          : 'border-white/10 bg-white/[0.02] shadow-[0_18px_48px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.04)] hover:border-white/16 hover:bg-white/[0.032]'
-      }`}
-    >
-      <div className="pointer-events-none absolute inset-0">
-        <div
-          className={`absolute inset-0 bg-[radial-gradient(circle_at_14%_14%,rgba(255,255,255,0.08),transparent_20%),radial-gradient(circle_at_82%_26%,rgba(255,255,255,0.05),transparent_18%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0)_40%,rgba(0,0,0,0.22))] transition-opacity duration-500 ${
-            isActive ? 'opacity-100' : 'opacity-60'
-          }`}
-        />
-        <div
-          className={`absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent transition-opacity duration-500 ${
-            isActive ? 'opacity-100' : 'opacity-45'
-          }`}
-        />
-      </div>
-
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={isActive}
-        aria-controls={`service-panel-${index}`}
-        className="relative flex w-full items-center gap-4 px-5 py-5 text-left md:px-7 md:py-6"
-      >
-        <div
-          className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-all duration-500 ${
-            isActive
-              ? 'border-white/28 bg-white/[0.06] text-white shadow-[0_0_28px_rgba(255,255,255,0.06)]'
-              : 'border-white/14 bg-white/[0.02] text-white/84'
-          }`}
-        >
-          <Icon className="h-[18px] w-[18px]" />
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <p className="mb-2 text-[10px] uppercase tracking-[0.24em] text-white/34 md:text-[11px]">
-            {service.pulse}
-          </p>
-          <div className="flex min-w-0 items-center gap-3">
-            <h3 className="min-w-0 font-sans text-[1.05rem] font-medium leading-tight tracking-tight text-white md:text-[1.3rem]">
-              {service.title}
-            </h3>
-          </div>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-3 md:gap-5">
-          <span className="text-sm text-white/34 md:text-[1.05rem]">{String(index + 1).padStart(2, '0')}</span>
-          <span
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-500 ${
-              isActive
-                ? 'border-white/18 bg-white text-black'
-                : 'border-white/12 bg-white/[0.03] text-white/82 group-hover:border-white/18'
-            }`}
-          >
-            {isActive ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-          </span>
-        </div>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {isActive ? (
-          <motion.div
-            key="panel"
-            id={`service-panel-${index}`}
-            {...panelMotion}
-            className="overflow-hidden"
-          >
-            <div className="relative border-t border-white/10 px-5 pb-5 pt-5 md:px-7 md:pb-7 md:pt-6">
-              <div>
-                <p className="max-w-3xl text-sm leading-7 text-white/72 md:text-[15px]">
-                  {service.description}
-                </p>
-
-                <div className="mt-5 flex">
-                  <button
-                    type="button"
-                    onClick={onRequest}
-                    className="hero-chrome-button inline-flex items-center justify-center gap-2 rounded-[14px] px-6 py-3 text-sm font-semibold text-black"
-                  >
-                    Запросить
-                    <ArrowUpRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </motion.article>
-  )
-}
+const complexSupportTitle = 'Комплексное сопровождение клиента по всем направлениям'
 
 export function ServicesSection() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0)
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null)
+  const [isRequestOpen, setIsRequestOpen] = useState(false)
 
   return (
     <section id="services" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
@@ -324,25 +203,68 @@ export function ServicesSection() {
           <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Все услуги</h2>
         </Reveal>
 
-        <div className="mt-8 space-y-3">
-          {services.map((service, index) => (
-            <Reveal key={service.title} delay={index * 35}>
-              <ServiceAccordionItem
-                index={index}
-                service={service}
-                isActive={activeIndex === index}
-                onToggle={() => setActiveIndex((current) => (current === index ? null : index))}
-                onRequest={() => setSelectedService(service)}
-              />
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="mt-8" delay={80}>
+          <article className="relative overflow-hidden rounded-[2rem] border border-white/14 bg-white/[0.035] p-5 shadow-[0_28px_84px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.08)] md:p-7">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_14%,rgba(255,255,255,0.08),transparent_20%),radial-gradient(circle_at_82%_22%,rgba(255,255,255,0.06),transparent_18%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0)_40%,rgba(0,0,0,0.24))]" />
+              <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/55 to-transparent" />
+            </div>
+
+            <div className="relative grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+              <div>
+                <p className="text-xs uppercase tracking-[0.22em] text-white/38">Комплекс</p>
+                <h3 className="mt-4 max-w-2xl text-3xl font-semibold leading-[0.98] tracking-tight text-white md:text-5xl">
+                  {complexSupportTitle}
+                </h3>
+                <p className="mt-5 max-w-xl text-sm leading-7 text-white/68 md:text-[15px]">
+                  Берем на себя весь путь артиста: от идеи, аранжировки и записи до финального звука,
+                  релиз-пакета, визуального контента и продвижения. Это единая заявка не на одну услугу, а
+                  на сопровождение проекта по всем нужным направлениям.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setIsRequestOpen(true)}
+                  className="hero-chrome-button mt-7 inline-flex w-full items-center justify-center gap-2 rounded-[14px] px-6 py-3 text-sm font-semibold text-black sm:w-auto"
+                >
+                  Запросить
+                  <ArrowUpRight className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {services.map((service, index) => {
+                  const Icon = service.icon
+
+                  return (
+                    <div
+                      key={service.title}
+                      className="group flex min-h-[104px] gap-4 rounded-[1.4rem] border border-white/10 bg-black/24 p-4 transition duration-300 hover:border-white/18 hover:bg-white/[0.04]"
+                    >
+                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] text-white/82 transition duration-300 group-hover:border-white/26 group-hover:text-white">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-white/32">
+                          {String(index + 1).padStart(2, '0')}
+                        </p>
+                        <p className="mt-2 font-sans text-base font-medium leading-tight tracking-tight text-white md:text-[1.05rem]">
+                          {service.title}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </article>
+        </Reveal>
       </div>
 
       <LeadRequestModal
-        isOpen={selectedService !== null}
-        serviceTitle={selectedService?.title ?? ''}
-        onClose={() => setSelectedService(null)}
+        isOpen={isRequestOpen}
+        serviceTitle={complexSupportTitle}
+        onClose={() => setIsRequestOpen(false)}
       />
     </section>
   )
