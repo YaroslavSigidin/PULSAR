@@ -90,14 +90,19 @@ export function FilmWorksSection() {
         <Reveal className="mx-auto max-w-4xl text-center">
           <p className="text-xs tracking-[0.16em] text-white/45">SELECTED FILMS</p>
           <h2 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
-            Фильмы, над которыми мы работали
+            Музыкальный продакшн кино и рекламы
           </h2>
-          <p className="mx-auto mt-4 max-w-4xl text-xl text-white/65 md:text-[34px] md:leading-[1.18]">
-            Полнометражные проекты, где мы работали с музыкой, звуком и общей упаковкой материала.
-          </p>
+          <div className="mx-auto mt-5 max-w-3xl space-y-3 text-base leading-7 text-white/64 md:text-lg">
+            <p>Подбор и лицензирование существующих треков.</p>
+            <p>Создание музыки для полного метра, саундтреки и джинглы.</p>
+          </div>
         </Reveal>
 
-        <ul className="mt-14 grid gap-4 md:grid-cols-2">
+        <Reveal className="mt-12">
+          <h3 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">Наши работы:</h3>
+        </Reveal>
+
+        <ul className="mt-5 grid gap-4 md:grid-cols-2">
           {films.map((film, index) => (
             <Reveal key={film.title} delay={index * 40}>
               <FilmCard index={index} film={film} />
