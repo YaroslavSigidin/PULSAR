@@ -39,7 +39,22 @@ export function Navbar() {
 
   return (
     <header className="apple-liquid-header fixed inset-x-0 top-0 z-40 px-3 py-3 sm:px-5 xl:px-6 xl:py-5">
-      <div className="mx-auto max-w-6xl">
+      <AnimatePresence>
+        {!isDesktopNav && isMobileMenuOpen ? (
+          <motion.button
+            type="button"
+            aria-label="Закрыть меню"
+            className="apple-liquid-mobile-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            onClick={closeMobileMenu}
+          />
+        ) : null}
+      </AnimatePresence>
+
+      <div className="relative z-10 mx-auto max-w-6xl">
         <nav className="apple-liquid-bar flex min-h-16 w-full items-center justify-between gap-3 rounded-[1.45rem] px-3 py-2 sm:min-h-[4.5rem] sm:rounded-[1.85rem] xl:min-h-0 xl:rounded-[2rem] xl:px-4 xl:py-3">
           <div className="flex items-center gap-4">
             <a href="#" className="apple-liquid-brand apple-liquid-logo" onClick={closeMobileMenu}>
