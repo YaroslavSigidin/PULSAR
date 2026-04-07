@@ -91,25 +91,31 @@ const tracks: CaseTrack[] = [
   },
 ] as const
 
-function YandexMusicLogo({ className = 'h-4 w-4' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="none">
-      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M12 3.5a8.5 8.5 0 0 1 0 17" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="12" cy="12" r="2.35" fill="currentColor" />
-    </svg>
-  )
+function getYandexPlayerUrl(url: string) {
+  const { pathname } = new URL(url)
+  const [, albumId, trackId] = pathname.match(/\/album\/(\d+)(?:\/track\/(\d+))?/) ?? []
+
+  if (albumId && trackId) {
+    return `https://music.yandex.ru/iframe/#track/${trackId}/${albumId}`
+  }
+
+  if (albumId) {
+    return `https://music.yandex.ru/iframe/#album/${albumId}`
+  }
+
+  return url
 }
 
-function StreamingPlatforms() {
-  const iconClasses =
-    'inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-black/25 text-white/80 backdrop-blur-sm transition-colors group-hover:text-white'
-
+function TrackPlayer({ track }: { track: CaseTrack }) {
   return (
-    <div className="mt-5 flex items-center">
-      <span className={iconClasses}>
-        <YandexMusicLogo className="h-[18px] w-[18px]" />
-      </span>
+    <div className="mt-5 overflow-hidden rounded-[1rem] border border-white/12 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md">
+      <iframe
+        title={`${track.artists} — ${track.title}`}
+        src={getYandexPlayerUrl(track.url)}
+        loading="lazy"
+        className="block h-[92px] w-full grayscale contrast-125 saturate-0"
+        allow="autoplay; clipboard-write; encrypted-media"
+      />
     </div>
   )
 }
@@ -117,12 +123,7 @@ function StreamingPlatforms() {
 function CaseCard({ index, track }: { index: number; track: CaseTrack }) {
   return (
     <li>
-      <a
-        href={track.url}
-        target="_blank"
-        rel="noreferrer"
-        className="group relative flex min-h-[420px] h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 transition duration-500 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.05] md:p-7"
-      >
+      <article className="group relative flex min-h-[500px] h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 transition duration-500 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.05] md:p-7">
         <div className="pointer-events-none absolute inset-0">
           <img
             src={track.cover}
@@ -133,9 +134,15 @@ function CaseCard({ index, track }: { index: number; track: CaseTrack }) {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.46),rgba(0,0,0,0.74)_42%,rgba(0,0,0,0.94))]" />
         </div>
 
-        <span className="absolute right-6 top-6 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 text-white/70 transition duration-300 group-hover:border-white/34 group-hover:bg-white group-hover:text-black">
+        <a
+          href={track.url}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Открыть ${track.title} в Яндекс Музыке`}
+          className="absolute right-6 top-6 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 text-white/70 transition duration-300 group-hover:border-white/34 group-hover:bg-white group-hover:text-black"
+        >
           <ArrowUpRight className="h-4 w-4" />
-        </span>
+        </a>
 
         <span className="absolute left-6 top-6 z-10 text-[12px] font-medium tracking-[0.24em] text-white/38">
           {String(index + 1).padStart(2, '0')}
@@ -148,9 +155,9 @@ function CaseCard({ index, track }: { index: number; track: CaseTrack }) {
           <h3 className="artist-name-chrome mt-4 max-w-[20rem] text-[2rem] font-semibold uppercase tracking-[-0.04em] text-white md:text-[2.5rem] md:leading-[0.95]">
             {track.title}
           </h3>
-          <StreamingPlatforms />
+          <TrackPlayer track={track} />
         </div>
-      </a>
+      </article>
     </li>
   )
 }
