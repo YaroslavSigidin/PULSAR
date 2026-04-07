@@ -31,17 +31,20 @@ export function MapSection() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
               <div className="absolute inset-x-0 bottom-0 z-10 h-28 bg-gradient-to-t from-black/55 via-black/12 to-transparent" />
-              <a
-                href={MAP_OPEN_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="hero-chrome-button absolute bottom-6 left-6 right-6 z-20 inline-flex items-center justify-center gap-2 rounded-[14px] px-6 py-3 text-sm font-semibold text-black sm:left-auto sm:right-6 sm:w-auto"
-              >
-                Перейти в Яндекс Карты
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
             </div>
           </div>
+        </Reveal>
+
+        <Reveal className="mt-7 flex justify-center" delay={140}>
+          <a
+            href={MAP_OPEN_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hero-chrome-button inline-flex w-full max-w-[18rem] items-center justify-center gap-2 rounded-[8px] px-7 py-3.5 text-sm font-semibold text-black"
+          >
+            Открыть карты
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
         </Reveal>
       </div>
     </section>
