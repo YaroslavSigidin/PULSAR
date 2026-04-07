@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   AudioLines,
+  ArrowUpRight,
   Captions,
   Clapperboard,
   Disc3,
@@ -16,6 +17,7 @@ import {
   Upload,
 } from 'lucide-react'
 
+import { LeadRequestModal } from '@/components/ui/LeadRequestModal'
 import { Reveal } from '@/components/ui/Reveal'
 
 type ServiceFlow = {
@@ -300,12 +302,23 @@ function ServiceAccordionItem({
 
 export function ServicesSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0)
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
 
   return (
     <section id="services" className="scroll-mt-28 bg-black px-4 pb-28 pt-10 text-white">
       <div className="mx-auto max-w-6xl">
         <Reveal className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Все услуги</h2>
+          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">
+            Комплексное сопровождение клиента по всем направлениям
+          </h2>
+          <button
+            type="button"
+            onClick={() => setIsRequestModalOpen(true)}
+            className="hero-chrome-button mx-auto mt-7 inline-flex w-full max-w-[18rem] items-center justify-center gap-2 rounded-[8px] px-7 py-3.5 text-sm font-semibold text-black"
+          >
+            Оставить заявку
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </button>
         </Reveal>
 
         <div className="mt-8 space-y-3">
@@ -321,6 +334,12 @@ export function ServicesSection() {
           ))}
         </div>
       </div>
+
+      <LeadRequestModal
+        isOpen={isRequestModalOpen}
+        serviceTitle="Комплексное сопровождение клиента по всем направлениям"
+        onClose={() => setIsRequestModalOpen(false)}
+      />
     </section>
   )
 }
