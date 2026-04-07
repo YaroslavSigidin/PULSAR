@@ -105,7 +105,7 @@ function CaseCard({
           <img
             src={track.cover}
             alt=""
-            className="absolute inset-0 h-full w-full origin-top scale-[1.55] object-cover object-top opacity-35 saturate-[1.02] transition duration-700 ease-out group-hover:scale-[1.62] group-hover:opacity-60"
+            className="absolute inset-0 h-full w-full object-cover object-top opacity-35 saturate-[1.02] transition-opacity duration-700 ease-out group-hover:opacity-60"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.68),rgba(0,0,0,0.82)_44%,rgba(0,0,0,0.94))] transition-opacity duration-700 ease-out group-hover:opacity-60" />
         </div>
