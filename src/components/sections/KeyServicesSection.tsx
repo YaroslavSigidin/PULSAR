@@ -124,7 +124,7 @@ export function KeyServicesSection() {
 
                     <PricingCard.Body className="flex flex-1 flex-col px-5 pb-0 pt-4 space-y-0">
                       <div className="space-y-5">
-                        <PricingCard.Description className="premium-tariff-copy max-w-sm text-sm leading-6 text-white/62">
+                        <PricingCard.Description className="premium-tariff-copy max-w-sm text-sm leading-6 text-white/50">
                           {service.description}
                         </PricingCard.Description>
 

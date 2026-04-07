@@ -933,7 +933,10 @@
     filter: drop-shadow(0 10px 20px rgba(255, 255, 255, 0.08));
   }
 
-  .premium-tariff-card:hover .premium-tariff-copy,
+  .premium-tariff-card:hover .premium-tariff-copy {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
   .premium-tariff-card:hover .premium-tariff-feature {
     color: rgba(255, 255, 255, 0.8);
   }
