@@ -163,7 +163,6 @@ function TrackPlayer({
   return (
     <div
       aria-label={`Плеер ${track.title}`}
-      onPointerEnter={() => onActivate(trackKey)}
       className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_44px_rgba(0,0,0,0.28)] backdrop-blur-md"
     >
       <button
