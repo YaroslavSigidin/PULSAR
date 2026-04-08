@@ -69,7 +69,7 @@ export function HeroSection() {
         style={{ perspective: 1600 }}
         className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col items-center overflow-hidden px-4 pb-12 pt-[6.9rem] text-center md:min-h-screen md:overflow-visible md:pb-16 md:pt-[15rem]"
       >
-        <motion.div variants={revealItem} className="md:mt-[100px]">
+        <motion.div variants={revealItem} className="hidden md:mt-[100px] md:block">
           <div className="relative mx-auto h-[132px] w-[min(92vw,420px)] overflow-hidden sm:h-[150px] sm:w-[min(92vw,480px)] md:h-[376px] md:w-[1040px] md:overflow-visible xl:h-[396px] xl:w-[1100px]">
             <div className="relative z-10 h-full w-full overflow-hidden md:overflow-visible">
               <LiquidMetal
@@ -92,10 +92,10 @@ export function HeroSection() {
               />
             </div>
           </div>
-          <h1 className="sr-only">ПУЛЬСАР</h1>
+          <h1 className="sr-only">KK Brothers</h1>
         </motion.div>
 
-        <motion.div variants={revealItem} className="mt-8 flex w-full max-w-[20.5rem] flex-col items-stretch gap-3 md:mt-10 md:gap-4">
+        <motion.div variants={revealItem} className="mt-[532px] flex w-full max-w-[20.5rem] flex-col items-stretch gap-3 md:mt-10 md:gap-4">
           <a
             href="#lead-form"
             className="hero-chrome-button inline-flex w-full items-center justify-center gap-2 rounded-[8px] px-7 py-3.5 text-sm font-semibold text-black"
